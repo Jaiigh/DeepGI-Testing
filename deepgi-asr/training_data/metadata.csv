@@ -1,0 +1,31 @@
+audio_filepath,text
+training_data/audio/sample_001.wav,hey deepgi
+training_data/audio/sample_002.wav,hey deepgi polyp found
+training_data/audio/sample_003.wav,hey deepgi bleeding noted
+training_data/audio/sample_004.wav,hey deepgi lesion identified
+training_data/audio/sample_005.wav,hey deepgi diverticulum seen
+training_data/audio/sample_006.wav,hey deep gi
+training_data/audio/sample_007.wav,hey dgi
+training_data/audio/sample_008.wav,hey deepgee
+training_data/audio/sample_009.wav,hey deep gee
+training_data/audio/sample_010.wav,hey deepgi finding recorded
+training_data/audio/sample_011.wav,polyp at sigmoid colon 5 millimeters
+training_data/audio/sample_012.wav,bleeding at rectum
+training_data/audio/sample_013.wav,diverticulum at descending colon
+training_data/audio/sample_014.wav,Paris classification one p pedunculated polyp
+training_data/audio/sample_015.wav,sessile polyp at ascending colon 8 millimeters
+training_data/audio/sample_016.wav,flat lesion at transverse colon
+training_data/audio/sample_017.wav,biopsy taken from hepatic flexure
+training_data/audio/sample_018.wav,resection performed at splenic flexure
+training_data/audio/sample_019.wav,Boston Bowel Score 8 excellent preparation
+training_data/audio/sample_020.wav,cecum reached intubation time 4 minutes
+training_data/audio/sample_021.wav,polyp at sigmoid colon 12 millimeters pedunculated
+training_data/audio/sample_022.wav,no lesions identified throughout the colon
+training_data/audio/sample_023.wav,diverticulum at sigmoid colon mild diverticulosis
+training_data/audio/sample_024.wav,bleeding at ascending colon active oozing
+training_data/audio/sample_025.wav,Paris classification 2a flat elevated lesion at rectum
+training_data/audio/sample_026.wav,hot snare polypectomy performed at cecum
+training_data/audio/sample_027.wav,tattoo placed distal to polyp at descending colon
+training_data/audio/sample_028.wav,Paris classification 1 s sessile polyp at transverse colon
+training_data/audio/sample_029.wav,Boston Bowel Score 6 adequate preparation
+training_data/audio/sample_030.wav,withdrawal time 9 minutes complete examination

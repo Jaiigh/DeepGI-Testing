@@ -1,0 +1,12 @@
+openai-whisper
+sounddevice
+numpy
+scipy
+transformers
+datasets
+accelerate
+evaluate
+jiwer
+torch
+torchaudio
+openwakeword

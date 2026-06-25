@@ -1,0 +1,15 @@
+venv/
+__pycache__/
+*.pyc
+*.py[cod]
+*.wav
+*.pt
+*.pth
+outputs/models/
+outputs/reports/
+training_data/audio/
+.DS_Store
+*.egg-info/
+dist/
+build/
+.env
