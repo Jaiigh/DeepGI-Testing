@@ -12,7 +12,7 @@ Say **"Hey DeepGI"** to activate, speak your finding, and the system transcribes
 |-----------|-------------|
 | **VAD** (Voice Activation Detection) | Listens for the "Hey DeepGI" wake word using Whisper |
 | **ASR** (Automatic Speech Recognition) | Transcribes GI findings with Whisper + medical prompt |
-| **TTS** (Text-to-Speech) | Reads back findings using macOS `say` command |
+| **TTS** (Text-to-Speech) | Reads back findings using Kokoro TTS |
 
 The pipeline can run with base Whisper models out of the box, or switch to fine-tuned models after training on your own GI audio samples.
 
@@ -22,14 +22,18 @@ The pipeline can run with base Whisper models out of the box, or switch to fine-
 
 ```bash
 # 1. Create and activate virtual environment
-python3 -m venv venv
-source venv/bin/activate
+/opt/homebrew/bin/python3.11 -m venv .venv
+source .venv/bin/activate
 
 # 2. Install dependencies
 pip install -r requirements.txt
 ```
 
-> **macOS note:** `fp16=False` is set throughout — CUDA is not required.
+> **macOS note:** `fp16=False` is set throughout — CUDA is not required. Kokoro also needs `espeak-ng` available on your system:
+>
+> ```bash
+> brew install espeak-ng
+> ```
 
 ---
 

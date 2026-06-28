@@ -16,6 +16,11 @@ SAMPLE_RATE = 16000
 TRIGGER_CHUNK_DURATION = 3       # seconds to listen for trigger
 FINDING_DURATION = 8             # seconds to record after trigger
 
+# TTS settings
+KOKORO_LANG_CODE = "a"           # American English
+KOKORO_VOICE = "af_heart"
+KOKORO_SAMPLE_RATE = 24000
+
 # Medical vocabulary hint for Whisper
 INITIAL_PROMPT = """DeepGI colonoscopy findings: polyp, lesion, bleeding,
 diverticulum, sigmoid colon, cecum, rectum, ascending colon, descending colon,
