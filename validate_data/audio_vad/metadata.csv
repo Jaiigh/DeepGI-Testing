@@ -1,0 +1,85 @@
+audio_filepath,text,label,category,speaker,take
+validate_data/audio_vad\sample_0001.wav,hey deepgi,1,positive_validate,tatthon,1
+validate_data/audio_vad\sample_0002.wav,hey deep gi,1,positive_validate,tatthon,1
+validate_data/audio_vad\sample_0003.wav,hey dgi,1,positive_validate,tatthon,1
+validate_data/audio_vad\sample_0004.wav,hey d gi,1,positive_validate,tatthon,1
+validate_data/audio_vad\sample_0005.wav,hey deepgee,1,positive_validate,tatthon,1
+validate_data/audio_vad\sample_0006.wav,hey deep gee,1,positive_validate,tatthon,1
+validate_data/audio_vad\sample_0007.wav,เฮ้ deepgi,1,positive_validate,tatthon,1
+validate_data/audio_vad\sample_0008.wav,เฮ้ deep gi,1,positive_validate,tatthon,1
+validate_data/audio_vad\sample_0009.wav,เฮ deepgi,1,positive_validate,tatthon,1
+validate_data/audio_vad\sample_0010.wav,เฮ dgi,1,positive_validate,tatthon,1
+validate_data/audio_vad\sample_0011.wav,deepgi,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0012.wav,deep gi,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0013.wav,dgi,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0014.wav,deepgee,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0015.wav,hey,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0016.wav,เฮ้,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0017.wav,hey deep,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0018.wav,เฮ้ deep,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0018.wav,เฮ้ deep,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0019.wav,hey gi,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0020.wav,deepgi please,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0021.wav,โอเค deepgi,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0022.wav,เรียก deepgi,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0023.wav,เปิด deepgi,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0024.wav,ปิด deepgi,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0025.wav,ระบบ deepgi,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0026.wav,ชื่อ deepgi,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0027.wav,deepgi ทำงานไหม,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0028.wav,deepgi ยังไม่ติด,0,hard_negative_validate,tatthon,1
+validate_data/audio_vad\sample_0029.wav,hey siri,0,other_wakeword_validate,tatthon,1
+validate_data/audio_vad\sample_0030.wav,hey google,0,other_wakeword_validate,tatthon,1
+validate_data/audio_vad\sample_0031.wav,hey alexa,0,other_wakeword_validate,tatthon,1
+validate_data/audio_vad\sample_0032.wav,hey jarvis,0,other_wakeword_validate,tatthon,1
+validate_data/audio_vad\sample_0033.wav,hey doctor,0,other_wakeword_validate,tatthon,1
+validate_data/audio_vad\sample_0034.wav,hey หมอ,0,other_wakeword_validate,tatthon,1
+validate_data/audio_vad\sample_0035.wav,เฮ้ หมอ,0,other_wakeword_validate,tatthon,1
+validate_data/audio_vad\sample_0036.wav,hello deepgi,0,other_wakeword_validate,tatthon,1
+validate_data/audio_vad\sample_0037.wav,เจอ polyp,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0038.wav,พบ polyp,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0039.wav,เจอ bleeding,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0040.wav,พบ bleeding,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0041.wav,มี lesion,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0042.wav,พบ lesion,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0043.wav,เจอ diverticulum,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0044.wav,พบ diverticulum,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0045.wav,ทำ biopsy,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0046.wav,ทำ resection,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0047.wav,polyp ที่ rectum,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0048.wav,polyp ที่ sigmoid,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0049.wav,bleeding ที่ rectum,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0050.wav,lesion ที่ colon,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0051.wav,flat lesion,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0052.wav,sessile polyp,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0053.wav,small polyp,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0054.wav,large polyp,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0055.wav,cecum reached,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0056.wav,ตรวจถึง cecum,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0057.wav,ไม่พบ lesion,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0058.wav,ไม่พบ bleeding,0,negative_medical_validate,tatthon,1
+validate_data/audio_vad\sample_0059.wav,save image,0,negative_command_validate,tatthon,1
+validate_data/audio_vad\sample_0060.wav,capture image,0,negative_command_validate,tatthon,1
+validate_data/audio_vad\sample_0061.wav,save ภาพนี้,0,negative_command_validate,tatthon,1
+validate_data/audio_vad\sample_0062.wav,capture ภาพนี้,0,negative_command_validate,tatthon,1
+validate_data/audio_vad\sample_0063.wav,สร้าง report,0,negative_command_validate,tatthon,1
+validate_data/audio_vad\sample_0064.wav,เปิด report,0,negative_command_validate,tatthon,1
+validate_data/audio_vad\sample_0065.wav,ปิด report,0,negative_command_validate,tatthon,1
+validate_data/audio_vad\sample_0066.wav,ดูภาพล่าสุด,0,negative_command_validate,tatthon,1
+validate_data/audio_vad\sample_0067.wav,บันทึกข้อมูล,0,negative_command_validate,tatthon,1
+validate_data/audio_vad\sample_0068.wav,เพิ่ม finding,0,negative_command_validate,tatthon,1
+validate_data/audio_vad\sample_0069.wav,ลบ finding,0,negative_command_validate,tatthon,1
+validate_data/audio_vad\sample_0070.wav,ตรวจต่อเลย,0,negative_command_validate,tatthon,1
+validate_data/audio_vad\sample_0071.wav,หยุดอัดเสียง,0,negative_command_validate,tatthon,1
+validate_data/audio_vad\sample_0072.wav,เริ่มอัดเสียง,0,negative_command_validate,tatthon,1
+validate_data/audio_vad\sample_0073.wav,โอเค เริ่มได้,0,negative_general_validate,tatthon,1
+validate_data/audio_vad\sample_0074.wav,เดี๋ยวดูตรงนี้,0,negative_general_validate,tatthon,1
+validate_data/audio_vad\sample_0075.wav,ขยับกล้องนิดนึง,0,negative_general_validate,tatthon,1
+validate_data/audio_vad\sample_0076.wav,ภาพชัดดี,0,negative_general_validate,tatthon,1
+validate_data/audio_vad\sample_0077.wav,ตรงนี้ดูปกติ,0,negative_general_validate,tatthon,1
+validate_data/audio_vad\sample_0078.wav,ขอเวลาสักครู่,0,negative_general_validate,tatthon,1
+validate_data/audio_vad\sample_0079.wav,เตรียมเครื่องมือ,0,negative_general_validate,tatthon,1
+validate_data/audio_vad\sample_0080.wav,ไปต่อได้เลย,0,negative_general_validate,tatthon,1
+validate_data/audio_vad\sample_0081.wav,silence,0,noise_validate,tatthon,1
+validate_data/audio_vad\sample_0082.wav,background noise,0,noise_validate,tatthon,1
+validate_data/audio_vad\sample_0083.wav,room noise,0,noise_validate,tatthon,1

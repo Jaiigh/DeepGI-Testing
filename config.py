@@ -24,6 +24,6 @@ Boston Bowel Score, pedunculated, sessile, flat, biopsy, resection"""
 
 # Training mode toggle
 USE_FINETUNED_ASR = False        # True to use fine-tuned model
-USE_FINETUNED_VAD = False        # True to use trained wake word model
+USE_FINETUNED_VAD = True       # True to use trained wake word model
 FINETUNED_ASR_PATH = "outputs/models/whisper-deepgi"
 FINETUNED_VAD_PATH = "outputs/models/vad-deepgi"
