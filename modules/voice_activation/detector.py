@@ -83,78 +83,46 @@ def clear_audio_queue():
 # =========================
 
 class WakeWordCNN(nn.Module):
-    def __init__(self, embedding_dim: int = 64):
+    def __init__(self):
         super().__init__()
 
-        self.encoder = nn.Sequential(
+        self.net = nn.Sequential(
             # input: (batch, 1, 40, time)
 
-            nn.Conv2d(1, 32, kernel_size=(5, 9), padding=(2, 4), bias=False),
+            nn.Conv2d(1, 32, kernel_size=(5, 9), padding=(2, 4)),
             nn.BatchNorm2d(32),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=(2, 2)),
 
-            nn.Conv2d(32, 64, kernel_size=(5, 9), padding=(2, 4), bias=False),
+            nn.Conv2d(32, 64, kernel_size=(5, 9), padding=(2, 4)),
             nn.BatchNorm2d(64),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=(2, 2)),
 
+            # เหลือ dilation layer เดียวพอ
             nn.Conv2d(
                 64,
-                128,
+                96,
                 kernel_size=(3, 7),
                 padding=(1, 6),
                 dilation=(1, 2),
-                bias=False,
             ),
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-
-            nn.Conv2d(
-                128,
-                128,
-                kernel_size=(3, 7),
-                padding=(2, 6),
-                dilation=(2, 2),
-                bias=False,
-            ),
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-
-            nn.Conv2d(
-                128,
-                128,
-                kernel_size=(3, 7),
-                padding=(2, 12),
-                dilation=(2, 4),
-                bias=False,
-            ),
-            nn.BatchNorm2d(128),
+            nn.BatchNorm2d(96),
             nn.ReLU(),
 
             nn.Dropout2d(0.20),
+
             nn.AdaptiveAvgPool2d((1, 1)),
         )
 
-        self.feature_dim = 128
-        self.classifier = nn.Linear(self.feature_dim, 1)
-        self.projection = nn.Sequential(
-            nn.Linear(self.feature_dim, self.feature_dim),
-            nn.ReLU(),
-            nn.Linear(self.feature_dim, embedding_dim),
-        )
+        self.classifier = nn.Linear(96, 1)
 
-    def forward(self, x, return_embedding: bool = False):
-        features = self.encoder(x).flatten(1)
-        logits = self.classifier(features).squeeze(1)
-
-        if not return_embedding:
-            return logits
-
-        embeddings = self.projection(features)
-        embeddings = F.normalize(embeddings, dim=1)
-        return logits, embeddings
-
+    def forward(self, x):
+        # x shape: (batch, 1, 40, time)
+        x = self.net(x)
+        x = x.flatten(1)
+        logits = self.classifier(x).squeeze(1)
+        return logits
 
 def load_finetuned_vad_model():
     global _vad_model
@@ -185,7 +153,7 @@ def load_finetuned_vad_model():
     sample_rate = checkpoint.get("sample_rate", config.SAMPLE_RATE)
     clip_seconds = checkpoint.get("clip_seconds", config.TRIGGER_CHUNK_DURATION)
 
-    threshold = 0.7
+    threshold = 0.6
     n_samples = int(sample_rate * clip_seconds)
 
     mfcc_transform = T.MFCC(

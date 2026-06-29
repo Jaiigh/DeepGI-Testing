@@ -487,3 +487,108 @@ training_data/audio_vad/sample_0128.wav,ไม่พบ lesion,0,negative_medica
 training_data/audio_vad/sample_0129.wav,ไม่พบ lesion,0,negative_medical,chanon_02,3
 training_data/audio_vad/sample_0130.wav,withdrawal 9 minutes,0,negative_medical,chanon_02,1
 training_data/audio_vad/sample_0131.wav,withdrawal 9 minutes,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0132.wav,save image,0,negative_command,chanon_02,1
+training_data/audio_vad/sample_0133.wav,save image,0,negative_command,chanon_02,2
+training_data/audio_vad/sample_0134.wav,save image,0,negative_command,chanon_02,3
+training_data/audio_vad/sample_0135.wav,capture image,0,negative_command,chanon_02,1
+training_data/audio_vad/sample_0136.wav,capture image,0,negative_command,chanon_02,2
+training_data/audio_vad/sample_0137.wav,capture image,0,negative_command,chanon_02,3
+training_data/audio_vad/sample_0138.wav,สร้าง report,0,negative_command,chanon_02,1
+training_data/audio_vad/sample_0139.wav,สร้าง report,0,negative_command,chanon_02,2
+training_data/audio_vad/sample_0140.wav,สร้าง report,0,negative_command,chanon_02,3
+training_data/audio_vad/sample_0141.wav,เปิด report,0,negative_command,chanon_02,1
+training_data/audio_vad/sample_0142.wav,เปิด report,0,negative_command,chanon_02,2
+training_data/audio_vad/sample_0143.wav,เปิด report,0,negative_command,chanon_02,3
+training_data/audio_vad/sample_0144.wav,ดูภาพล่าสุด,0,negative_command,chanon_02,1
+training_data/audio_vad/sample_0145.wav,ดูภาพล่าสุด,0,negative_command,chanon_02,2
+training_data/audio_vad/sample_0146.wav,ดูภาพล่าสุด,0,negative_command,chanon_02,3
+training_data/audio_vad/sample_0147.wav,บันทึกข้อมูล,0,negative_command,chanon_02,1
+training_data/audio_vad/sample_0148.wav,บันทึกข้อมูล,0,negative_command,chanon_02,2
+training_data/audio_vad/sample_0149.wav,บันทึกข้อมูล,0,negative_command,chanon_02,3
+training_data/audio_vad/sample_0150.wav,capture ภาพนี้,0,negative_command,chanon_02,1
+training_data/audio_vad/sample_0151.wav,capture ภาพนี้,0,negative_command,chanon_02,2
+training_data/audio_vad/sample_0152.wav,capture ภาพนี้,0,negative_command,chanon_02,3
+training_data/audio_vad/sample_0153.wav,save ภาพนี้,0,negative_command,chanon_02,1
+training_data/audio_vad/sample_0154.wav,save ภาพนี้,0,negative_command,chanon_02,2
+training_data/audio_vad/sample_0155.wav,save ภาพนี้,0,negative_command,chanon_02,3
+training_data/audio_vad/sample_0156.wav,ตรวจต่อเลย,0,negative_command,chanon_02,1
+training_data/audio_vad/sample_0157.wav,ตรวจต่อเลย,0,negative_command,chanon_02,2
+training_data/audio_vad/sample_0158.wav,ตรวจต่อเลย,0,negative_command,chanon_02,3
+training_data/audio_vad/sample_0159.wav,เตรียม biopsy,0,negative_command,chanon_02,1
+training_data/audio_vad/sample_0160.wav,เตรียม biopsy,0,negative_command,chanon_02,2
+training_data/audio_vad/sample_0161.wav,เตรียม biopsy,0,negative_command,chanon_02,3
+training_data/audio_vad/sample_0162.wav,silence,0,noise,chanon_02,1
+training_data/audio_vad/sample_0163.wav,silence,0,noise,chanon_02,2
+training_data/audio_vad/sample_0164.wav,silence,0,noise,chanon_02,3
+training_data/audio_vad/sample_0165.wav,background noise,0,noise,chanon_02,1
+training_data/audio_vad/sample_0166.wav,background noise,0,noise,chanon_02,2
+training_data/audio_vad/sample_0167.wav,background noise,0,noise,chanon_02,3
+training_data/audio_vad/sample_0168.wav,room noise,0,noise,chanon_02,1
+training_data/audio_vad/sample_0169.wav,room noise,0,noise,chanon_02,2
+training_data/audio_vad/sample_0170.wav,room noise,0,noise,chanon_02,3
+training_data/audio_vad/sample_0171.wav,keyboard sound,0,noise,chanon_02,1
+training_data/audio_vad/sample_0172.wav,keyboard sound,0,noise,chanon_02,2
+training_data/audio_vad/sample_0173.wav,keyboard sound,0,noise,chanon_02,3
+training_data/audio_vad/sample_0174.wav,chair movement,0,noise,chanon_02,1
+training_data/audio_vad/sample_0175.wav,chair movement,0,noise,chanon_02,2
+training_data/audio_vad/sample_0176.wav,chair movement,0,noise,chanon_02,3
+training_data/audio_vad/sample_0177.wav,เสียงห้องตรวจ,0,noise,chanon_02,1
+training_data/audio_vad/sample_0178.wav,เสียงห้องตรวจ,0,noise,chanon_02,2
+training_data/audio_vad/sample_0179.wav,เสียงห้องตรวจ,0,noise,chanon_02,3
+training_data/audio_vad/sample_0180.wav,เสียงคนคุย,0,noise,chanon_02,1
+training_data/audio_vad/sample_0181.wav,เสียงคนคุย,0,noise,chanon_02,2
+training_data/audio_vad/sample_0182.wav,เสียงคนคุย,0,noise,chanon_02,3
+training_data/audio_vad/sample_0183.wav,เสียงเครื่องมือ,0,noise,chanon_02,1
+training_data/audio_vad/sample_0184.wav,เสียงเครื่องมือ,0,noise,chanon_02,2
+training_data/audio_vad/sample_0185.wav,เสียงเครื่องมือ,0,noise,chanon_02,3
+training_data/audio_vad/sample_0186.wav,สวัสดี,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0187.wav,สวัสดี,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0188.wav,สวัสดี,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0189.wav,ได้ยินไหม,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0190.wav,ได้ยินไหม,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0191.wav,ได้ยินไหม,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0192.wav,โอเค,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0193.wav,โอเค,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0194.wav,โอเค,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0195.wav,เริ่มเลย,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0196.wav,เริ่มเลย,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0197.wav,เริ่มเลย,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0198.wav,หยุดก่อน,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0199.wav,หยุดก่อน,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0200.wav,หยุดก่อน,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0201.wav,ลองใหม่,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0202.wav,ลองใหม่,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0203.wav,ลองใหม่,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0204.wav,ช่วยหน่อย,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0205.wav,ช่วยหน่อย,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0206.wav,ช่วยหน่อย,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0207.wav,เปิดหน่อย,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0208.wav,เปิดหน่อย,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0209.wav,เปิดหน่อย,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0210.wav,ปิดหน่อย,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0211.wav,ปิดหน่อย,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0212.wav,ปิดหน่อย,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0213.wav,บันทึกไว้,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0214.wav,บันทึกไว้,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0215.wav,บันทึกไว้,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0216.wav,ดูตรงนี้,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0217.wav,ดูตรงนี้,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0218.wav,ดูตรงนี้,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0219.wav,อันนี้คืออะไร,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0220.wav,อันนี้คืออะไร,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0221.wav,อันนี้คืออะไร,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0222.wav,เมื่อกี้พูดว่าอะไร,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0223.wav,เมื่อกี้พูดว่าอะไร,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0224.wav,เมื่อกี้พูดว่าอะไร,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0225.wav,เสียงดังไป,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0226.wav,เสียงดังไป,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0227.wav,เสียงดังไป,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0228.wav,เงียบหน่อย,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0229.wav,เงียบหน่อย,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0230.wav,เงียบหน่อย,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0231.wav,ร้องเพลง,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0232.wav,ร้องเพลง,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0233.wav,ร้องเพลง,0,general_speech,chanon_02,3
+training_data/audio_vad/sample_0234.wav,เสียงลากยาว,0,general_speech,chanon_02,1
+training_data/audio_vad/sample_0235.wav,เสียงลากยาว,0,general_speech,chanon_02,2
+training_data/audio_vad/sample_0236.wav,เสียงลากยาว,0,general_speech,chanon_02,3

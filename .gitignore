@@ -9,6 +9,8 @@ __pycache__/
 outputs/models/
 outputs/reports/
 training_data/audio/
+training_data/audio_vad/
+*.zip
 .DS_Store
 *.egg-info/
 dist/
