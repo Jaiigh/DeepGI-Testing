@@ -35,3 +35,7 @@ def run_pipeline() -> None:
     except KeyboardInterrupt:
         print("\nSession ended.")
         speak("Session ended.")
+
+
+if __name__ == "__main__":
+    run_pipeline()

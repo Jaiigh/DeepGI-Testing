@@ -1,0 +1,489 @@
+audio_filepath,text,label,category,speaker,take
+training_data/audio_vad\sample_0001.wav,hey deepgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0002.wav,hey deep gi,1,positive,tatthon,1
+training_data/audio_vad\sample_0003.wav,hey dgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0004.wav,hey d gi,1,positive,tatthon,1
+training_data/audio_vad\sample_0005.wav,hey deepgee,1,positive,tatthon,1
+training_data/audio_vad\sample_0006.wav,hey deepgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0007.wav,hey deep gee,1,positive,tatthon,1
+training_data/audio_vad\sample_0008.wav,เฮ้ deepgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0009.wav,เฮ deepgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0010.wav,เฮ้ deep gi,1,positive,tatthon,1
+training_data/audio_vad\sample_0011.wav,เฮ้ dgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0012.wav,deepgi,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0013.wav,deep gi,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0014.wav,dgi,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0015.wav,hey,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0016.wav,เฮ้,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0017.wav,hey deep,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0018.wav,เฮ้ deep,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0019.wav,hey gi,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0020.wav,hey doctor,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0021.wav,hey หมอ,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0022.wav,hey deepgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0023.wav,hey deepgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0024.wav,hey deepgi,1,positive,tatthon,2
+training_data/audio_vad\sample_0025.wav,hey deepgi,1,positive,tatthon,3
+training_data/audio_vad\sample_0026.wav,hey deep gi,1,positive,tatthon,1
+training_data/audio_vad\sample_0027.wav,hey deep gi,1,positive,tatthon,2
+training_data/audio_vad\sample_0028.wav,hey deep gi,1,positive,tatthon,3
+training_data/audio_vad\sample_0029.wav,hey dgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0030.wav,hey dgi,1,positive,tatthon,2
+training_data/audio_vad\sample_0031.wav,hey dgi,1,positive,tatthon,3
+training_data/audio_vad\sample_0032.wav,hey d gi,1,positive,tatthon,1
+training_data/audio_vad\sample_0033.wav,hey d gi,1,positive,tatthon,2
+training_data/audio_vad\sample_0034.wav,hey d gi,1,positive,tatthon,3
+training_data/audio_vad\sample_0035.wav,hey deepgee,1,positive,tatthon,1
+training_data/audio_vad\sample_0036.wav,hey deepgee,1,positive,tatthon,2
+training_data/audio_vad\sample_0037.wav,hey deepgee,1,positive,tatthon,3
+training_data/audio_vad\sample_0038.wav,hey deep gee,1,positive,tatthon,1
+training_data/audio_vad\sample_0039.wav,hey deep gee,1,positive,tatthon,2
+training_data/audio_vad\sample_0040.wav,hey deep gee,1,positive,tatthon,3
+training_data/audio_vad\sample_0041.wav,เฮ้ deepgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0042.wav,เฮ้ deepgi,1,positive,tatthon,2
+training_data/audio_vad\sample_0043.wav,เฮ้ deepgi,1,positive,tatthon,3
+training_data/audio_vad\sample_0044.wav,เฮ deepgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0045.wav,เฮ deepgi,1,positive,tatthon,2
+training_data/audio_vad\sample_0046.wav,เฮ deepgi,1,positive,tatthon,3
+training_data/audio_vad\sample_0047.wav,เฮ้ deep gi,1,positive,tatthon,1
+training_data/audio_vad\sample_0048.wav,เฮ้ deep gi,1,positive,tatthon,2
+training_data/audio_vad\sample_0049.wav,เฮ้ deep gi,1,positive,tatthon,3
+training_data/audio_vad\sample_0050.wav,เฮ้ dgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0051.wav,เฮ้ dgi,1,positive,tatthon,2
+training_data/audio_vad\sample_0052.wav,เฮ้ dgi,1,positive,tatthon,3
+training_data/audio_vad\sample_0053.wav,deepgi,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0054.wav,deepgi,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0055.wav,deepgi,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0056.wav,deep gi,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0057.wav,deep gi,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0058.wav,deep gi,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0059.wav,dgi,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0060.wav,dgi,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0061.wav,dgi,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0062.wav,hey,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0063.wav,hey,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0064.wav,hey,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0065.wav,เฮ้,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0066.wav,เฮ้,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0067.wav,เฮ้,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0068.wav,hey deep,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0069.wav,hey deep,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0070.wav,hey deep,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0071.wav,เฮ้ deep,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0072.wav,เฮ้ deep,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0073.wav,เฮ้ deep,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0074.wav,hey gi,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0075.wav,hey gi,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0076.wav,hey gi,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0077.wav,hey doctor,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0078.wav,hey doctor,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0079.wav,hey doctor,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0080.wav,hey หมอ,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0081.wav,hey หมอ,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0082.wav,hey หมอ,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0083.wav,hey there,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0084.wav,hey there,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0085.wav,hey there,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0086.wav,hey david,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0087.wav,hey david,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0088.wav,hey david,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0089.wav,hey jarvis,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0090.wav,hey jarvis,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0091.wav,hey jarvis,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0092.wav,โอเค deepgi,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0093.wav,โอเค deepgi,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0094.wav,โอเค deepgi,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0095.wav,เรียก deepgi,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0096.wav,เรียก deepgi,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0097.wav,เรียก deepgi,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0098.wav,ระบบ deepgi,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0099.wav,ระบบ deepgi,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0100.wav,ระบบ deepgi,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0101.wav,ชื่อ deepgi,0,hard_negative,tatthon,1
+training_data/audio_vad\sample_0102.wav,ชื่อ deepgi,0,hard_negative,tatthon,2
+training_data/audio_vad\sample_0103.wav,ชื่อ deepgi,0,hard_negative,tatthon,3
+training_data/audio_vad\sample_0104.wav,เจอ polyp,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0105.wav,เจอ polyp,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0106.wav,เจอ polyp,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0107.wav,พบ bleeding,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0108.wav,พบ bleeding,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0109.wav,พบ bleeding,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0110.wav,มี lesion,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0111.wav,มี lesion,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0112.wav,มี lesion,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0113.wav,เจอ diverticulum,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0114.wav,เจอ diverticulum,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0115.wav,เจอ diverticulum,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0116.wav,ทำ biopsy,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0117.wav,ทำ biopsy,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0118.wav,ทำ biopsy,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0119.wav,ทำ resection,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0120.wav,ทำ resection,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0121.wav,ทำ resection,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0122.wav,polyp ที่ sigmoid,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0123.wav,polyp ที่ sigmoid,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0124.wav,polyp ที่ sigmoid,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0125.wav,bleeding ที่ rectum,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0126.wav,bleeding ที่ rectum,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0127.wav,bleeding ที่ rectum,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0128.wav,lesion ที่ colon,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0129.wav,lesion ที่ colon,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0130.wav,lesion ที่ colon,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0131.wav,sessile polyp,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0132.wav,sessile polyp,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0133.wav,sessile polyp,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0134.wav,flat lesion,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0135.wav,flat lesion,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0136.wav,flat lesion,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0137.wav,pedunculated polyp,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0138.wav,pedunculated polyp,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0139.wav,pedunculated polyp,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0140.wav,Boston score 8,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0141.wav,Boston score 8,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0142.wav,Boston score 8,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0143.wav,cecum reached,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0144.wav,cecum reached,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0145.wav,cecum reached,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0146.wav,ตรวจถึง cecum,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0147.wav,ตรวจถึง cecum,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0148.wav,ตรวจถึง cecum,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0149.wav,ไม่พบ lesion,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0150.wav,ไม่พบ lesion,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0151.wav,ไม่พบ lesion,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0152.wav,withdrawal 9 minutes,0,negative_medical,tatthon,1
+training_data/audio_vad\sample_0153.wav,withdrawal 9 minutes,0,negative_medical,tatthon,2
+training_data/audio_vad\sample_0154.wav,withdrawal 9 minutes,0,negative_medical,tatthon,3
+training_data/audio_vad\sample_0155.wav,save image,0,negative_command,tatthon,1
+training_data/audio_vad\sample_0156.wav,save image,0,negative_command,tatthon,2
+training_data/audio_vad\sample_0157.wav,save image,0,negative_command,tatthon,3
+training_data/audio_vad\sample_0158.wav,capture image,0,negative_command,tatthon,1
+training_data/audio_vad\sample_0159.wav,capture image,0,negative_command,tatthon,2
+training_data/audio_vad\sample_0160.wav,capture image,0,negative_command,tatthon,3
+training_data/audio_vad\sample_0161.wav,สร้าง report,0,negative_command,tatthon,1
+training_data/audio_vad\sample_0162.wav,สร้าง report,0,negative_command,tatthon,2
+training_data/audio_vad\sample_0163.wav,สร้าง report,0,negative_command,tatthon,3
+training_data/audio_vad\sample_0164.wav,เปิด report,0,negative_command,tatthon,1
+training_data/audio_vad\sample_0165.wav,เปิด report,0,negative_command,tatthon,2
+training_data/audio_vad\sample_0166.wav,เปิด report,0,negative_command,tatthon,3
+training_data/audio_vad\sample_0167.wav,ดูภาพล่าสุด,0,negative_command,tatthon,1
+training_data/audio_vad\sample_0168.wav,ดูภาพล่าสุด,0,negative_command,tatthon,2
+training_data/audio_vad\sample_0169.wav,ดูภาพล่าสุด,0,negative_command,tatthon,3
+training_data/audio_vad\sample_0170.wav,บันทึกข้อมูล,0,negative_command,tatthon,1
+training_data/audio_vad\sample_0171.wav,บันทึกข้อมูล,0,negative_command,tatthon,2
+training_data/audio_vad\sample_0172.wav,บันทึกข้อมูล,0,negative_command,tatthon,3
+training_data/audio_vad\sample_0173.wav,capture ภาพนี้,0,negative_command,tatthon,1
+training_data/audio_vad\sample_0174.wav,capture ภาพนี้,0,negative_command,tatthon,2
+training_data/audio_vad\sample_0175.wav,capture ภาพนี้,0,negative_command,tatthon,3
+training_data/audio_vad\sample_0176.wav,save ภาพนี้,0,negative_command,tatthon,1
+training_data/audio_vad\sample_0177.wav,save ภาพนี้,0,negative_command,tatthon,2
+training_data/audio_vad\sample_0178.wav,save ภาพนี้,0,negative_command,tatthon,3
+training_data/audio_vad\sample_0179.wav,ตรวจต่อเลย,0,negative_command,tatthon,1
+training_data/audio_vad\sample_0180.wav,ตรวจต่อเลย,0,negative_command,tatthon,2
+training_data/audio_vad\sample_0181.wav,ตรวจต่อเลย,0,negative_command,tatthon,3
+training_data/audio_vad\sample_0182.wav,เตรียม biopsy,0,negative_command,tatthon,1
+training_data/audio_vad\sample_0183.wav,เตรียม biopsy,0,negative_command,tatthon,2
+training_data/audio_vad\sample_0184.wav,เตรียม biopsy,0,negative_command,tatthon,3
+training_data/audio_vad\sample_0185.wav,silence,0,noise,tatthon,1
+training_data/audio_vad\sample_0186.wav,silence,0,noise,tatthon,2
+training_data/audio_vad\sample_0187.wav,silence,0,noise,tatthon,3
+training_data/audio_vad\sample_0188.wav,background noise,0,noise,tatthon,1
+training_data/audio_vad\sample_0189.wav,background noise,0,noise,tatthon,2
+training_data/audio_vad\sample_0190.wav,background noise,0,noise,tatthon,3
+training_data/audio_vad\sample_0191.wav,room noise,0,noise,tatthon,1
+training_data/audio_vad\sample_0192.wav,room noise,0,noise,tatthon,2
+training_data/audio_vad\sample_0193.wav,room noise,0,noise,tatthon,3
+training_data/audio_vad\sample_0194.wav,hey deepgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0195.wav,hey deepgi,1,positive,tatthon,2
+training_data/audio_vad\sample_0196.wav,hey deepgi,1,positive,tatthon,3
+training_data/audio_vad\sample_0197.wav,hey deep gi,1,positive,tatthon,1
+training_data/audio_vad\sample_0198.wav,hey deep gi,1,positive,tatthon,2
+training_data/audio_vad\sample_0199.wav,hey deep gi,1,positive,tatthon,3
+training_data/audio_vad\sample_0200.wav,hey dgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0201.wav,hey dgi,1,positive,tatthon,2
+training_data/audio_vad\sample_0202.wav,hey dgi,1,positive,tatthon,3
+training_data/audio_vad\sample_0203.wav,hey d gi,1,positive,tatthon,1
+training_data/audio_vad\sample_0204.wav,hey d gi,1,positive,tatthon,2
+training_data/audio_vad\sample_0205.wav,hey d gi,1,positive,tatthon,3
+training_data/audio_vad\sample_0206.wav,hey deepgee,1,positive,tatthon,1
+training_data/audio_vad\sample_0207.wav,hey deepgee,1,positive,tatthon,2
+training_data/audio_vad\sample_0208.wav,hey deepgee,1,positive,tatthon,3
+training_data/audio_vad\sample_0209.wav,hey deep gee,1,positive,tatthon,1
+training_data/audio_vad\sample_0210.wav,hey deep gee,1,positive,tatthon,2
+training_data/audio_vad\sample_0211.wav,hey deep gee,1,positive,tatthon,3
+training_data/audio_vad\sample_0212.wav,เฮ้ deepgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0213.wav,เฮ้ deepgi,1,positive,tatthon,2
+training_data/audio_vad\sample_0214.wav,เฮ้ deepgi,1,positive,tatthon,3
+training_data/audio_vad\sample_0215.wav,เฮ deepgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0216.wav,เฮ deepgi,1,positive,tatthon,2
+training_data/audio_vad\sample_0217.wav,เฮ deepgi,1,positive,tatthon,3
+training_data/audio_vad\sample_0218.wav,สวัสดี,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0219.wav,สวัสดี,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0220.wav,สวัสดี,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0221.wav,ได้ยินไหม,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0222.wav,ได้ยินไหม,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0223.wav,ได้ยินไหม,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0224.wav,โอเค,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0225.wav,โอเค,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0226.wav,โอเค,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0227.wav,เริ่มเลย,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0228.wav,เริ่มเลย,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0229.wav,เริ่มเลย,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0230.wav,หยุดก่อน,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0231.wav,หยุดก่อน,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0232.wav,หยุดก่อน,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0233.wav,ลองใหม่,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0234.wav,ลองใหม่,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0235.wav,ลองใหม่,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0236.wav,ช่วยหน่อย,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0237.wav,ช่วยหน่อย,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0238.wav,ช่วยหน่อย,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0239.wav,เปิดหน่อย,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0240.wav,เปิดหน่อย,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0241.wav,เปิดหน่อย,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0242.wav,ปิดหน่อย,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0243.wav,ปิดหน่อย,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0244.wav,ปิดหน่อย,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0245.wav,บันทึกไว้,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0246.wav,บันทึกไว้,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0247.wav,บันทึกไว้,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0248.wav,ดูตรงนี้,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0249.wav,ดูตรงนี้,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0250.wav,ดูตรงนี้,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0251.wav,ร้องเพลง,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0252.wav,ร้องเพลง,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0253.wav,ร้องเพลง,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0254.wav,ร้องเพลง,0,general_speech,tatthon,4
+training_data/audio_vad\sample_0255.wav,ร้องเพลง,0,general_speech,tatthon,5
+training_data/audio_vad\sample_0256.wav,เสียงลากยาว,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0257.wav,เสียงลากยาว,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0258.wav,เสียงลากยาว,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0259.wav,เสียงลากยาว,0,general_speech,tatthon,4
+training_data/audio_vad\sample_0260.wav,เสียงลากยาว,0,general_speech,tatthon,5
+training_data/audio_vad\sample_0261.wav,ร้องเพลง,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0262.wav,ร้องเพลง,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0263.wav,ร้องเพลง,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0264.wav,ร้องเพลง,0,general_speech,tatthon,4
+training_data/audio_vad\sample_0265.wav,ร้องเพลง,0,general_speech,tatthon,5
+training_data/audio_vad\sample_0266.wav,hey deepgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0267.wav,hey deepgi,1,positive,tatthon,2
+training_data/audio_vad\sample_0268.wav,hey deepgi,1,positive,tatthon,3
+training_data/audio_vad\sample_0269.wav,hey deepgi,1,positive,tatthon,4
+training_data/audio_vad\sample_0270.wav,hey deepgi,1,positive,tatthon,5
+training_data/audio_vad\sample_0271.wav,hey deep gi,1,positive,tatthon,1
+training_data/audio_vad\sample_0272.wav,hey deep gi,1,positive,tatthon,2
+training_data/audio_vad\sample_0273.wav,hey deep gi,1,positive,tatthon,3
+training_data/audio_vad\sample_0274.wav,hey deep gi,1,positive,tatthon,4
+training_data/audio_vad\sample_0275.wav,hey deep gi,1,positive,tatthon,5
+training_data/audio_vad\sample_0276.wav,พูดมั่วๆ,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0277.wav,พูดมั่วๆ,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0278.wav,พูดมั่วๆ,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0279.wav,พูดมั่วๆ,0,general_speech,tatthon,4
+training_data/audio_vad\sample_0280.wav,พูดมั่วๆ,0,general_speech,tatthon,5
+training_data/audio_vad\sample_0281.wav,พูดมั่วๆ,0,general_speech,tatthon,6
+training_data/audio_vad\sample_0282.wav,พูดมั่วๆ,0,general_speech,tatthon,7
+training_data/audio_vad\sample_0283.wav,พูดมั่วๆ,0,general_speech,tatthon,8
+training_data/audio_vad\sample_0284.wav,พูดมั่วๆ,0,general_speech,tatthon,9
+training_data/audio_vad\sample_0285.wav,พูดมั่วๆ,0,general_speech,tatthon,10
+training_data/audio_vad\sample_0286.wav,hey deepgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0287.wav,hey deepgi,1,positive,tatthon,2
+training_data/audio_vad\sample_0288.wav,hey deepgi,1,positive,tatthon,3
+training_data/audio_vad\sample_0289.wav,hey deepgi,1,positive,tatthon,4
+training_data/audio_vad\sample_0290.wav,hey deepgi,1,positive,tatthon,5
+training_data/audio_vad\sample_0291.wav,hey deepgi,1,positive,tatthon,6
+training_data/audio_vad\sample_0292.wav,hey deepgi,1,positive,tatthon,7
+training_data/audio_vad\sample_0293.wav,hey deepgi,1,positive,tatthon,8
+training_data/audio_vad\sample_0294.wav,hey deepgi,1,positive,tatthon,9
+training_data/audio_vad\sample_0295.wav,hey deepgi,1,positive,tatthon,10
+training_data/audio_vad\sample_0296.wav,hey deep gi,1,positive,tatthon,1
+training_data/audio_vad\sample_0297.wav,hey deep gi,1,positive,tatthon,2
+training_data/audio_vad\sample_0298.wav,hey deep gi,1,positive,tatthon,3
+training_data/audio_vad\sample_0299.wav,hey deep gi,1,positive,tatthon,4
+training_data/audio_vad\sample_0300.wav,hey deep gi,1,positive,tatthon,5
+training_data/audio_vad\sample_0301.wav,hey deep gi,1,positive,tatthon,6
+training_data/audio_vad\sample_0302.wav,hey deep gi,1,positive,tatthon,7
+training_data/audio_vad\sample_0303.wav,hey deep gi,1,positive,tatthon,8
+training_data/audio_vad\sample_0304.wav,hey deep gi,1,positive,tatthon,9
+training_data/audio_vad\sample_0305.wav,hey deep gi,1,positive,tatthon,10
+training_data/audio_vad\sample_0306.wav,hey dgi,1,positive,tatthon,1
+training_data/audio_vad\sample_0307.wav,hey dgi,1,positive,tatthon,2
+training_data/audio_vad\sample_0308.wav,hey dgi,1,positive,tatthon,3
+training_data/audio_vad\sample_0309.wav,hey dgi,1,positive,tatthon,4
+training_data/audio_vad\sample_0310.wav,hey dgi,1,positive,tatthon,5
+training_data/audio_vad\sample_0311.wav,hey dgi,1,positive,tatthon,6
+training_data/audio_vad\sample_0312.wav,hey dgi,1,positive,tatthon,7
+training_data/audio_vad\sample_0313.wav,hey dgi,1,positive,tatthon,8
+training_data/audio_vad\sample_0314.wav,hey dgi,1,positive,tatthon,9
+training_data/audio_vad\sample_0315.wav,hey dgi,1,positive,tatthon,10
+training_data/audio_vad\sample_0316.wav,hey d gi,1,positive,tatthon,1
+training_data/audio_vad\sample_0317.wav,hey d gi,1,positive,tatthon,2
+training_data/audio_vad\sample_0318.wav,hey d gi,1,positive,tatthon,3
+training_data/audio_vad\sample_0319.wav,hey d gi,1,positive,tatthon,4
+training_data/audio_vad\sample_0320.wav,hey d gi,1,positive,tatthon,5
+training_data/audio_vad\sample_0321.wav,hey d gi,1,positive,tatthon,6
+training_data/audio_vad\sample_0322.wav,hey d gi,1,positive,tatthon,7
+training_data/audio_vad\sample_0323.wav,hey d gi,1,positive,tatthon,8
+training_data/audio_vad\sample_0324.wav,hey d gi,1,positive,tatthon,9
+training_data/audio_vad\sample_0325.wav,hey d gi,1,positive,tatthon,10
+training_data/audio_vad\sample_0326.wav,hey deepgee,1,positive,tatthon,1
+training_data/audio_vad\sample_0327.wav,hey deepgee,1,positive,tatthon,2
+training_data/audio_vad\sample_0328.wav,hey deepgee,1,positive,tatthon,3
+training_data/audio_vad\sample_0329.wav,hey deepgee,1,positive,tatthon,4
+training_data/audio_vad\sample_0330.wav,hey deepgee,1,positive,tatthon,5
+training_data/audio_vad\sample_0331.wav,hey deepgee,1,positive,tatthon,6
+training_data/audio_vad\sample_0332.wav,hey deepgee,1,positive,tatthon,7
+training_data/audio_vad\sample_0333.wav,hey deepgee,1,positive,tatthon,8
+training_data/audio_vad\sample_0334.wav,hey deepgee,1,positive,tatthon,9
+training_data/audio_vad\sample_0335.wav,ร้องเพลง,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0336.wav,ร้องเพลง,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0337.wav,ร้องเพลง,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0338.wav,ร้องเพลง,0,general_speech,tatthon,4
+training_data/audio_vad\sample_0339.wav,ร้องเพลง,0,general_speech,tatthon,5
+training_data/audio_vad\sample_0340.wav,เสียงลากยาว,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0341.wav,เสียงลากยาว,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0342.wav,เสียงลากยาว,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0343.wav,เสียงลากยาว,0,general_speech,tatthon,4
+training_data/audio_vad\sample_0344.wav,เสียงลากยาว,0,general_speech,tatthon,5
+training_data/audio_vad\sample_0345.wav,พูดมั่วๆ,0,general_speech,tatthon,1
+training_data/audio_vad\sample_0346.wav,พูดมั่วๆ,0,general_speech,tatthon,2
+training_data/audio_vad\sample_0347.wav,พูดมั่วๆ,0,general_speech,tatthon,3
+training_data/audio_vad\sample_0348.wav,พูดมั่วๆ,0,general_speech,tatthon,4
+training_data/audio_vad\sample_0349.wav,พูดมั่วๆ,0,general_speech,tatthon,5
+training_data/audio_vad\sample_0350.wav,พูดมั่วๆ,0,general_speech,tatthon,6
+training_data/audio_vad\sample_0351.wav,พูดมั่วๆ,0,general_speech,tatthon,7
+training_data/audio_vad\sample_0352.wav,พูดมั่วๆ,0,general_speech,tatthon,8
+training_data/audio_vad\sample_0353.wav,พูดมั่วๆ,0,general_speech,tatthon,9
+training_data/audio_vad\sample_0354.wav,พูดมั่วๆ,0,general_speech,tatthon,10
+training_data/audio_vad/sample_0355.wav,hey deepgi,1,positive,chanon_02,1
+training_data/audio_vad/sample_0356.wav,hey deepgi,1,positive,chanon_02,2
+training_data/audio_vad/sample_0357.wav,hey deepgi,1,positive,chanon_02,1
+training_data/audio_vad/sample_0001.wav,hey deepgi,1,positive,chanon_02,1
+training_data/audio_vad/sample_0002.wav,hey deepgi,1,positive,chanon_02,2
+training_data/audio_vad/sample_0003.wav,hey deepgi,1,positive,chanon_02,3
+training_data/audio_vad/sample_0004.wav,hey deep gi,1,positive,chanon_02,1
+training_data/audio_vad/sample_0005.wav,hey deep gi,1,positive,chanon_02,2
+training_data/audio_vad/sample_0006.wav,hey deep gi,1,positive,chanon_02,3
+training_data/audio_vad/sample_0007.wav,hey dgi,1,positive,chanon_02,1
+training_data/audio_vad/sample_0008.wav,hey dgi,1,positive,chanon_02,2
+training_data/audio_vad/sample_0009.wav,hey dgi,1,positive,chanon_02,3
+training_data/audio_vad/sample_0010.wav,hey d gi,1,positive,chanon_02,1
+training_data/audio_vad/sample_0011.wav,hey d gi,1,positive,chanon_02,2
+training_data/audio_vad/sample_0012.wav,hey d gi,1,positive,chanon_02,3
+training_data/audio_vad/sample_0013.wav,hey deepgee,1,positive,chanon_02,1
+training_data/audio_vad/sample_0014.wav,hey deepgee,1,positive,chanon_02,2
+training_data/audio_vad/sample_0015.wav,hey deepgee,1,positive,chanon_02,3
+training_data/audio_vad/sample_0016.wav,hey deep gee,1,positive,chanon_02,1
+training_data/audio_vad/sample_0017.wav,hey deep gee,1,positive,chanon_02,2
+training_data/audio_vad/sample_0018.wav,hey deep gee,1,positive,chanon_02,3
+training_data/audio_vad/sample_0019.wav,เฮ้ deepgi,1,positive,chanon_02,1
+training_data/audio_vad/sample_0020.wav,เฮ้ deepgi,1,positive,chanon_02,2
+training_data/audio_vad/sample_0021.wav,เฮ้ deepgi,1,positive,chanon_02,3
+training_data/audio_vad/sample_0022.wav,เฮ deepgi,1,positive,chanon_02,1
+training_data/audio_vad/sample_0023.wav,เฮ deepgi,1,positive,chanon_02,2
+training_data/audio_vad/sample_0024.wav,เฮ deepgi,1,positive,chanon_02,3
+training_data/audio_vad/sample_0025.wav,เฮ้ deep gi,1,positive,chanon_02,1
+training_data/audio_vad/sample_0026.wav,เฮ้ deep gi,1,positive,chanon_02,2
+training_data/audio_vad/sample_0027.wav,เฮ้ deep gi,1,positive,chanon_02,3
+training_data/audio_vad/sample_0028.wav,เฮ้ dgi,1,positive,chanon_02,1
+training_data/audio_vad/sample_0029.wav,เฮ้ dgi,1,positive,chanon_02,2
+training_data/audio_vad/sample_0030.wav,เฮ้ dgi,1,positive,chanon_02,3
+training_data/audio_vad/sample_0031.wav,deepgi,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0032.wav,deepgi,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0033.wav,deepgi,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0034.wav,deep gi,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0035.wav,deep gi,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0036.wav,deep gi,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0037.wav,dgi,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0038.wav,dgi,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0039.wav,dgi,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0040.wav,hey,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0041.wav,hey,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0042.wav,hey,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0043.wav,เฮ้,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0044.wav,เฮ้,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0045.wav,เฮ้,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0046.wav,hey deep,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0047.wav,hey deep,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0048.wav,hey deep,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0049.wav,เฮ้ deep,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0050.wav,เฮ้ deep,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0051.wav,เฮ้ deep,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0052.wav,hey gi,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0053.wav,hey gi,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0054.wav,hey gi,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0055.wav,hey doctor,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0056.wav,hey doctor,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0057.wav,hey doctor,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0058.wav,hey หมอ,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0059.wav,hey หมอ,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0060.wav,hey หมอ,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0061.wav,hey there,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0062.wav,hey there,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0063.wav,hey there,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0064.wav,hey david,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0065.wav,hey david,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0066.wav,hey david,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0067.wav,hey jarvis,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0068.wav,hey jarvis,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0069.wav,hey jarvis,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0070.wav,โอเค deepgi,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0071.wav,โอเค deepgi,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0072.wav,โอเค deepgi,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0073.wav,เรียก deepgi,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0074.wav,เรียก deepgi,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0075.wav,เรียก deepgi,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0076.wav,ระบบ deepgi,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0077.wav,ระบบ deepgi,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0078.wav,ระบบ deepgi,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0079.wav,ชื่อ deepgi,0,hard_negative,chanon_02,1
+training_data/audio_vad/sample_0080.wav,ชื่อ deepgi,0,hard_negative,chanon_02,2
+training_data/audio_vad/sample_0081.wav,ชื่อ deepgi,0,hard_negative,chanon_02,3
+training_data/audio_vad/sample_0082.wav,เจอ polyp,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0083.wav,เจอ polyp,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0084.wav,เจอ polyp,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0085.wav,พบ bleeding,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0086.wav,พบ bleeding,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0087.wav,พบ bleeding,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0088.wav,มี lesion,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0089.wav,มี lesion,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0090.wav,มี lesion,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0091.wav,เจอ diverticulum,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0092.wav,เจอ diverticulum,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0093.wav,เจอ diverticulum,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0094.wav,ทำ biopsy,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0095.wav,ทำ biopsy,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0096.wav,ทำ biopsy,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0097.wav,ทำ resection,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0098.wav,ทำ resection,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0099.wav,ทำ resection,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0100.wav,polyp ที่ sigmoid,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0101.wav,polyp ที่ sigmoid,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0102.wav,polyp ที่ sigmoid,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0103.wav,bleeding ที่ rectum,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0104.wav,bleeding ที่ rectum,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0105.wav,bleeding ที่ rectum,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0106.wav,lesion ที่ colon,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0107.wav,lesion ที่ colon,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0108.wav,lesion ที่ colon,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0109.wav,sessile polyp,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0110.wav,sessile polyp,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0111.wav,sessile polyp,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0112.wav,flat lesion,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0113.wav,flat lesion,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0114.wav,flat lesion,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0115.wav,pedunculated polyp,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0116.wav,pedunculated polyp,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0117.wav,pedunculated polyp,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0118.wav,Boston score 8,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0119.wav,Boston score 8,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0120.wav,Boston score 8,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0121.wav,cecum reached,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0122.wav,cecum reached,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0123.wav,cecum reached,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0124.wav,ตรวจถึง cecum,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0125.wav,ตรวจถึง cecum,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0126.wav,ตรวจถึง cecum,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0127.wav,ไม่พบ lesion,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0128.wav,ไม่พบ lesion,0,negative_medical,chanon_02,2
+training_data/audio_vad/sample_0129.wav,ไม่พบ lesion,0,negative_medical,chanon_02,3
+training_data/audio_vad/sample_0130.wav,withdrawal 9 minutes,0,negative_medical,chanon_02,1
+training_data/audio_vad/sample_0131.wav,withdrawal 9 minutes,0,negative_medical,chanon_02,2

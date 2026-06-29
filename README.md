@@ -6,140 +6,205 @@ Say **"Hey DeepGI"** to activate, speak your finding, and the system transcribes
 
 ---
 
-## Overview
+## How It Works
+
+```
+Microphone → VAD (CNN wake word) → ASR (Whisper) → TTS (macOS say) → Log file
+```
 
 | Component | What it does |
 |-----------|-------------|
-| **VAD** (Voice Activation Detection) | Listens for the "Hey DeepGI" wake word using Whisper |
-| **ASR** (Automatic Speech Recognition) | Transcribes GI findings with Whisper + medical prompt |
-| **TTS** (Text-to-Speech) | Reads back findings using macOS `say` command |
-
-The pipeline can run with base Whisper models out of the box, or switch to fine-tuned models after training on your own GI audio samples.
+| **VAD** | Listens continuously for "Hey DeepGI" using a CNN wake word model |
+| **ASR** | Records 8 seconds and transcribes with Whisper + medical vocabulary prompt |
+| **TTS** | Reads the finding back using macOS `say` (or Kokoro neural TTS) |
 
 ---
 
 ## Setup
 
 ```bash
-# 1. Create and activate virtual environment
-python3 -m venv venv
+# 1. Clone the repo and enter the directory
+git clone <repo-url>
+cd DeepGI-Testing
+
+# 2. Create and activate virtual environment
+python3.11 -m venv venv
 source venv/bin/activate
 
-# 2. Install dependencies
+# 3. Install dependencies
 pip install -r requirements.txt
 ```
 
-> **macOS note:** `fp16=False` is set throughout — CUDA is not required.
-
 ---
 
-## Running the Demo
+## Quick Start (using pre-trained model)
+
+If a trained `classifier_cnn.pt` is already provided:
 
 ```bash
-python demo.py
+source venv/bin/activate
+python pipeline.py
 ```
 
-- Say **"Hey DeepGI"** to trigger recording
-- Speak your finding (8 seconds)
-- Finding is transcribed, read back, and saved to `outputs/reports/session_YYYY-MM-DD.txt`
-- Press **Ctrl+C** to end the session
+Say **"Hey DeepGI"**, speak your finding, and it will be transcribed and logged to `outputs/reports/`.
 
 ---
 
-## Recording Training Samples
+## Training the CNN Wake Word Model (your own voice)
+
+The CNN VAD must be trained on voices that will use the system. If it does not detect your voice, follow these steps.
+
+### Step 1 — Check your microphone device ID
 
 ```bash
-python training/record_samples.py
+python -c "import sounddevice as sd; print(sd.query_devices())"
+```
+
+Find your microphone in the list and set its ID in `config.py`:
+
+```python
+AUDIO_DEVICE = 1   # replace with your device ID
+```
+
+### Step 2 — Record your voice samples
+
+```bash
+python training/record_for_vad.py
 ```
 
 - Follow the on-screen prompts
-- Records 30 scripted lines (trigger phrases + GI findings)
-- Saves `.wav` files to `training_data/audio/`
-- Appends rows to `training_data/metadata.csv`
+- Record **trigger phrases** ("Hey DeepGI" and variants) — aim for 50+ samples
+- Record **non-trigger speech** (random sentences) — aim for 100+ samples
+- Files are saved to `training_data/audio_vad/` and logged in `training_data/audio_vad/metadata.csv`
 
----
+> Record in a quiet environment, at a normal speaking distance from the microphone.  
+> More speakers = more robust model. Have everyone who will use the system record samples.
 
-## Training the ASR Model
-
-```bash
-python training/train_asr.py
-```
-
-Fine-tunes Whisper small on your recorded samples. Training takes ~15–30 minutes on CPU.  
-Model is saved to `outputs/models/whisper-deepgi`.
-
----
-
-## Training the Wake Word Detector
+### Step 3 — Train the CNN
 
 ```bash
-python training/train_vad.py
+python training/train_vad_cnn.py
 ```
 
-Trains a custom openWakeWord model on your "hey deepgi" samples.  
-Model is saved to `outputs/models/vad-deepgi`.
+- Trains for 40 epochs (~2–5 minutes on CPU)
+- Saves the best checkpoint to `outputs/models/vad-deepgi/classifier_cnn.pt`
+- Watch the F1 score — anything above 0.85 is good for demo use
 
----
+### Step 4 — Enable the CNN in config
 
-## Switching to Fine-Tuned Models
-
-Edit [config.py](config.py):
+In `config.py`:
 
 ```python
-USE_FINETUNED_ASR = True   # use fine-tuned Whisper
-USE_FINETUNED_VAD = True   # use trained wake word detector
+USE_FINETUNED_VAD = True   # already True by default
 ```
 
-Then run `python demo.py` as normal.
+### Step 5 — Run the pipeline
+
+```bash
+python pipeline.py
+```
+
+You should see:
+```
+[VAD] CNN model loaded. threshold=0.65, sr=16000, clip=3.0s
+[VAD] Listening for wake word...
+```
+
+Say "Hey DeepGI" — the confidence score prints on each attempt.
 
 ---
 
-## Evaluating Performance
+## Configuration (`config.py`)
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `AUDIO_DEVICE` | `1` | Microphone device ID (`None` = system default) |
+| `USE_FINETUNED_VAD` | `True` | Use CNN wake word model |
+| `USE_FINETUNED_ASR` | `False` | Use fine-tuned Whisper (requires training) |
+| `USE_KOKORO_TTS` | `False` | Use Kokoro neural TTS (requires 400MB download) |
+| `WHISPER_MODEL` | `"small"` | Whisper model size |
+| `TRIGGER_CHUNK_DURATION` | `3` | Seconds of audio passed to CNN |
+| `FINDING_DURATION` | `8` | Seconds recorded after trigger |
+
+---
+
+## Optional: Kokoro Neural TTS
+
+By default the system uses macOS `say` for speech output. To use the higher quality Kokoro TTS:
 
 ```bash
-python training/evaluate.py
+# Download the model (~400MB, one time only)
+export HF_TOKEN=your_huggingface_token
+huggingface-cli download hexgrad/Kokoro-82M --token $HF_TOKEN
 ```
 
-Prints a comparison table: WER, trigger accuracy, and latency for base vs. fine-tuned models.  
-Results saved to `outputs/evaluate_results.txt`.
+Then in `config.py`:
+
+```python
+USE_KOKORO_TTS = True
+```
+
+---
+
+## Optional: Fine-tune Whisper ASR
+
+To improve transcription accuracy on medical terminology:
+
+```bash
+# 1. Record medical finding samples
+python training/record_samples.py
+
+# 2. Fine-tune Whisper
+python training/train_asr.py
+
+# 3. Enable in config
+# USE_FINETUNED_ASR = True
+```
+
+---
+
+## Evaluating the VAD Model
+
+After training, run evaluation to see accuracy, precision, recall, and confusion matrix:
+
+```bash
+python training/validate_vad.py
+```
 
 ---
 
 ## Project Structure
 
 ```
-deepgi-asr/
-├── README.md
+DeepGI-Testing/
+├── config.py                          # all settings in one place
+├── pipeline.py                        # main entry point
 ├── requirements.txt
-├── .gitignore
-├── config.py                    # central config for all settings
-├── demo.py                      # single entry point for professor demo
-├── pipeline.py                  # connects VAD → ASR → TTS
 │
 ├── modules/
-│   ├── __init__.py
 │   ├── voice_activation/
-│   │   ├── __init__.py
-│   │   └── detector.py          # wake word detection
+│   │   └── detector.py                # CNN wake word detection
 │   ├── asr/
-│   │   ├── __init__.py
-│   │   └── transcriber.py       # speech to text
+│   │   └── transcriber.py             # Whisper transcription
 │   └── tts/
-│       ├── __init__.py
-│       └── speaker.py           # text to speech
+│       └── speaker.py                 # say / Kokoro TTS
 │
 ├── training/
-│   ├── __init__.py
-│   ├── train_asr.py             # fine-tune Whisper on medical terms
-│   ├── train_vad.py             # train custom wake word detector
-│   ├── record_samples.py        # record training audio samples
-│   └── evaluate.py              # measure WER and accuracy after training
+│   ├── record_for_vad.py              # record wake word samples
+│   ├── train_vad_cnn.py               # train CNN wake word model
+│   ├── validate_vad.py                # evaluate VAD model
+│   ├── train_vad.py                   # (legacy) sklearn logistic regression
+│   ├── record_samples.py              # record ASR training samples
+│   └── train_asr.py                   # fine-tune Whisper
 │
 ├── training_data/
-│   ├── audio/                   # recorded .wav samples (git-ignored)
-│   └── metadata.csv             # headers: audio_filepath, text
+│   ├── audio_vad/                     # wake word .wav files
+│   │   └── metadata.csv
+│   └── metadata.csv                   # ASR training metadata
 │
 └── outputs/
-    ├── reports/                 # session transcription logs (git-ignored)
-    └── models/                  # saved fine-tuned models (git-ignored)
+    ├── models/
+    │   └── vad-deepgi/
+    │       └── classifier_cnn.pt      # trained CNN model
+    └── reports/                       # session transcription logs
 ```

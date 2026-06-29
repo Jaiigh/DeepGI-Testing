@@ -34,6 +34,7 @@ def _record_audio(duration: float) -> np.ndarray:
         samplerate=config.SAMPLE_RATE,
         channels=1,
         dtype="float32",
+        device=config.AUDIO_DEVICE,
     )
     sd.wait()
     return audio.flatten()

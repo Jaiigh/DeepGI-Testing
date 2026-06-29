@@ -2,6 +2,7 @@ openai-whisper
 sounddevice
 numpy
 scipy
+matplotlib
 transformers
 datasets
 accelerate
@@ -10,3 +11,6 @@ jiwer
 torch
 torchaudio
 openwakeword
+kokoro
+soundfile
+webrtcvad-wheels
