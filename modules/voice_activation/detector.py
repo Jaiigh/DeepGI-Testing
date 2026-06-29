@@ -83,65 +83,85 @@ def clear_audio_queue():
 # =========================
 
 class WakeWordCNN(nn.Module):
-    def __init__(self):
+    def __init__(self, embedding_dim: int = 64):
         super().__init__()
 
-        self.net = nn.Sequential(
+        self.encoder = nn.Sequential(
             # input: (batch, 1, 40, time)
 
-            # มองกว้างขึ้นจากเดิม 3x5 เป็น 5x9
-            nn.Conv2d(1, 32, kernel_size=(5, 9), padding=(2, 4)),
+            nn.Conv2d(1, 32, kernel_size=(5, 9), padding=(2, 4), bias=False),
             nn.BatchNorm2d(32),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=(2, 2)),
 
-            # มอง pattern ใหญ่ขึ้นอีก
-            nn.Conv2d(32, 64, kernel_size=(5, 9), padding=(2, 4)),
+            nn.Conv2d(32, 64, kernel_size=(5, 9), padding=(2, 4), bias=False),
             nn.BatchNorm2d(64),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=(2, 2)),
 
-            # ใช้ dilation ให้มองแกนเวลาไกลขึ้น
-            # kernel จริงเหมือนมองประมาณ 3 x 13
             nn.Conv2d(
                 64,
                 128,
                 kernel_size=(3, 7),
                 padding=(1, 6),
                 dilation=(1, 2),
+                bias=False,
             ),
             nn.BatchNorm2d(128),
             nn.ReLU(),
 
-            # มองทั้ง frequency และ time กว้างขึ้นอีก
-            # kernel จริงประมาณ 5 x 13
             nn.Conv2d(
                 128,
                 128,
                 kernel_size=(3, 7),
                 padding=(2, 6),
                 dilation=(2, 2),
+                bias=False,
+            ),
+            nn.BatchNorm2d(128),
+            nn.ReLU(),
+
+            nn.Conv2d(
+                128,
+                128,
+                kernel_size=(3, 7),
+                padding=(2, 12),
+                dilation=(2, 4),
+                bias=False,
             ),
             nn.BatchNorm2d(128),
             nn.ReLU(),
 
             nn.Dropout2d(0.20),
-
             nn.AdaptiveAvgPool2d((1, 1)),
         )
 
-        self.classifier = nn.Linear(128, 1)
+        self.feature_dim = 128
+        self.classifier = nn.Linear(self.feature_dim, 1)
+        self.projection = nn.Sequential(
+            nn.Linear(self.feature_dim, self.feature_dim),
+            nn.ReLU(),
+            nn.Linear(self.feature_dim, embedding_dim),
+        )
 
-    def forward(self, x):
-        # x shape: (batch, 1, 40, time)
-        x = self.net(x)
-        x = x.flatten(1)
-        logits = self.classifier(x).squeeze(1)
-        return logits
+    def forward(self, x, return_embedding: bool = False):
+        features = self.encoder(x).flatten(1)
+        logits = self.classifier(features).squeeze(1)
+
+        if not return_embedding:
+            return logits
+
+        embeddings = self.projection(features)
+        embeddings = F.normalize(embeddings, dim=1)
+        return logits, embeddings
 
 
 def load_finetuned_vad_model():
-    global _vad_model, _vad_mfcc_transform, _vad_threshold, _vad_n_samples, _vad_sample_rate
+    global _vad_model
+    global _vad_mfcc_transform
+    global _vad_threshold
+    global _vad_n_samples
+    global _vad_sample_rate
 
     if _vad_model is not None:
         return _vad_model
@@ -150,43 +170,48 @@ def load_finetuned_vad_model():
 
     if not os.path.exists(model_path):
         raise FileNotFoundError(
-            f"CNN model not found at {model_path}. "
-            f"Train it first by running training/train_vad.ipynb in Google Colab, "
-            f"then download classifier_cnn.pt to {config.FINETUNED_VAD_PATH}/."
+            f"CNN classifier not found at {model_path}. "
+            f"Run training/train_vad.py first."
         )
 
     print(f"[VAD] Loading CNN model from {model_path}...")
+
     checkpoint = torch.load(model_path, map_location=DEVICE)
 
-    if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint:
-        state_dict = checkpoint["model_state_dict"]
-        _vad_threshold = checkpoint.get("threshold", 0.65)
-        sr = checkpoint.get("sample_rate", config.SAMPLE_RATE)
-        clip_sec = checkpoint.get("clip_seconds", 3.0)
-        n_mfcc = checkpoint.get("n_mfcc", 40)
-    else:
-        state_dict = checkpoint
-        _vad_threshold = 0.65
-        sr = config.SAMPLE_RATE
-        clip_sec = 3.0
-        n_mfcc = 40
-
-    _vad_sample_rate = sr
-    _vad_n_samples = int(sr * clip_sec)
-
     model = WakeWordCNN().to(DEVICE)
-    model.load_state_dict(state_dict)
+    model.load_state_dict(checkpoint["model_state_dict"])
     model.eval()
+
+    sample_rate = checkpoint.get("sample_rate", config.SAMPLE_RATE)
+    clip_seconds = checkpoint.get("clip_seconds", config.TRIGGER_CHUNK_DURATION)
+
+    threshold = 0.7
+    n_samples = int(sample_rate * clip_seconds)
+
+    mfcc_transform = T.MFCC(
+        sample_rate=sample_rate,
+        n_mfcc=40,
+        melkwargs={
+            "n_fft": 400,
+            "hop_length": 160,
+            "n_mels": 80,
+        },
+    ).to(DEVICE)
+
     _vad_model = model
+    _vad_mfcc_transform = mfcc_transform
+    _vad_threshold = float(threshold)
+    _vad_n_samples = n_samples
+    _vad_sample_rate = sample_rate
 
-    _vad_mfcc_transform = T.MFCC(
-        sample_rate=sr,
-        n_mfcc=n_mfcc,
-        melkwargs={"n_fft": 400, "hop_length": 160, "n_mels": 80},
-    )
+    print(f"[VAD] CNN model loaded. threshold={_vad_threshold:.2f}")
+    print(f"[VAD] model_sample_rate={sample_rate}, runtime_sample_rate={config.SAMPLE_RATE}")
 
-    print(f"[VAD] CNN model loaded. threshold={_vad_threshold:.2f}, sr={sr}, clip={clip_sec}s")
-    return _vad_model
+    if sample_rate != config.SAMPLE_RATE:
+        print("[VAD] WARNING: model sample_rate != config.SAMPLE_RATE. "
+              "ควร train และ record ด้วย sample rate เดียวกัน")
+
+    return model
 
 
 # =========================
@@ -225,30 +250,43 @@ def calc_rms(audio: np.ndarray) -> float:
 # =========================
 
 def predict_wake_word_from_audio(audio: np.ndarray):
-    global _vad_model, _vad_mfcc_transform, _vad_threshold, _vad_n_samples
+    global _vad_model
+    global _vad_mfcc_transform
+    global _vad_threshold
+    global _vad_n_samples
 
     if _vad_model is None:
         load_finetuned_vad_model()
 
     audio = np.asarray(audio, dtype=np.float32)
-    tensor = torch.tensor(audio, dtype=torch.float32).unsqueeze(0)  # (1, samples)
 
-    # Pad or trim to the fixed clip length the CNN was trained on
-    n = tensor.shape[-1]
-    if n < _vad_n_samples:
-        tensor = F.pad(tensor, (0, _vad_n_samples - n))
+    tensor = torch.tensor(audio, dtype=torch.float32).unsqueeze(0)
+    # shape: (1, samples)
+
+    num_samples = tensor.shape[-1]
+
+    if num_samples < _vad_n_samples:
+        pad_amount = _vad_n_samples - num_samples
+        tensor = F.pad(tensor, (0, pad_amount))
     else:
         tensor = tensor[:, :_vad_n_samples]
 
-    mfcc = _vad_mfcc_transform(tensor)              # (1, n_mfcc, time)
-    mfcc = (mfcc - mfcc.mean()) / (mfcc.std() + 1e-6)  # same normalization as training
-    x = mfcc.unsqueeze(0).to(DEVICE)                # (1, 1, n_mfcc, time)
+    tensor = tensor.to(DEVICE)
 
     with torch.no_grad():
+        mfcc = _vad_mfcc_transform(tensor)
+        # shape: (1, 40, time)
+
+        mfcc = (mfcc - mfcc.mean()) / (mfcc.std() + 1e-6)
+
+        x = mfcc.unsqueeze(1)
+        # shape: (1, 1, 40, time)
+
         logits = _vad_model(x)
         confidence = torch.sigmoid(logits).item()
 
     is_trigger = confidence >= _vad_threshold
+
     return is_trigger, confidence
 
 
@@ -315,7 +353,6 @@ def _record_audio(duration: float) -> np.ndarray:
         samplerate=config.SAMPLE_RATE,
         channels=1,
         dtype="float32",
-        device=config.AUDIO_DEVICE,
     )
     sd.wait()
     return audio.flatten()
@@ -390,7 +427,6 @@ def _wait_for_trigger_finetuned():
         blocksize=FRAME_SAMPLES,
         dtype="int16",
         channels=CHANNELS,
-        device=config.AUDIO_DEVICE,
         callback=audio_callback,
     ):
         while True:

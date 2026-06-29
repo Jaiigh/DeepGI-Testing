@@ -15,10 +15,10 @@ FUZZY_THRESHOLD = 0.7
 SAMPLE_RATE = 16000
 TRIGGER_CHUNK_DURATION = 3       # seconds to listen for trigger
 FINDING_DURATION = 8             # seconds to record after trigger
-AUDIO_DEVICE = None              # None = system default (set to device ID if needed)
+AUDIO_DEVICE = 1              # None = system default (set to device ID if needed)
 
 # TTS settings
-USE_KOKORO_TTS = False           # True to use Kokoro neural TTS, False for platform say
+USE_KOKORO_TTS = True            # True to use Kokoro neural TTS, False for platform say
 KOKORO_LANG_CODE = "a"           # American English
 KOKORO_VOICE = "af_heart"
 KOKORO_SAMPLE_RATE = 24000
