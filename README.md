@@ -9,13 +9,13 @@ Say **"Hey DeepGI"** to activate, speak your finding, and the system transcribes
 ## How It Works
 
 ```
-Microphone → VAD (CNN wake word) → ASR (Whisper) → TTS (macOS say) → Log file
+Microphone → VAD (CNN wake word) → ASR (Whisper or Qwen3-ASR) → TTS (macOS say) → Log file
 ```
 
 | Component | What it does |
 |-----------|-------------|
 | **VAD** | Listens continuously for "Hey DeepGI" using a CNN wake word model |
-| **ASR** | Records 8 seconds and transcribes with Whisper + medical vocabulary prompt |
+| **ASR** | Records 8 seconds and transcribes with Whisper or optional Qwen3-ASR |
 | **TTS** | Reads the finding back using macOS `say` (or Kokoro neural TTS) |
 
 ---
@@ -123,6 +123,8 @@ Say "Hey DeepGI" — the confidence score prints on each attempt.
 | `USE_FINETUNED_ASR` | `False` | Use fine-tuned Whisper (requires training) |
 | `USE_KOKORO_TTS` | `False` | Use Kokoro neural TTS (requires 400MB download) |
 | `WHISPER_MODEL` | `"small"` | Whisper model size |
+| `ASR_BACKEND` | `"whisper"` | Select `"whisper"` or optional `"qwen"` backend |
+| `QWEN_ASR_MODEL` | `"Qwen/Qwen3-ASR-0.6B"` | Qwen model for the optional backend |
 | `TRIGGER_CHUNK_DURATION` | `3` | Seconds of audio passed to CNN |
 | `FINDING_DURATION` | `8` | Seconds recorded after trigger |
 
@@ -160,6 +162,35 @@ python training/train_asr.py
 # 3. Enable in config
 # USE_FINETUNED_ASR = True
 ```
+
+## Optional: Compare Whisper with Qwen3-ASR
+
+Qwen's official ASR family is **Qwen3-ASR**, available in 0.6B and 1.7B
+checkpoints. The project defaults to 0.6B because it is the more practical
+local comparison model. Whisper remains the default and is not replaced.
+
+```bash
+# Install Qwen's official local inference package (one time)
+pip install -U qwen-asr
+
+# Evaluate both models against the same files in training_data/metadata.csv
+python training/evaluate.py
+```
+
+The report at `outputs/evaluate_results.txt` lists WER and average inference
+latency for Whisper and Qwen side by side. Qwen weights download automatically
+on first use.
+
+To try Qwen in the live pipeline instead, change only this setting in
+`config.py`:
+
+```python
+ASR_BACKEND = "qwen"
+```
+
+For a higher-accuracy (and substantially heavier) comparison, change
+`QWEN_ASR_MODEL` to `"Qwen/Qwen3-ASR-1.7B"`. On a CPU-only Mac, keep
+`QWEN_ASR_DEVICE = "cpu"` and `QWEN_ASR_DTYPE = "float32"`.
 
 ---
 

@@ -69,6 +69,29 @@ def evaluate_whisper(model, samples: list, label: str) -> dict:
     }
 
 
+def evaluate_qwen(model, samples: list, label: str) -> dict:
+    """Evaluate Qwen on exactly the same audio and references as Whisper."""
+    import jiwer
+
+    latencies, references, hypotheses = [], [], []
+    for path, transcript in samples:
+        if not os.path.exists(path):
+            continue
+        audio = load_audio(path)
+        t0 = time.time()
+        text = model.transcribe_audio(audio, config.SAMPLE_RATE)
+        latencies.append((time.time() - t0) * 1000)
+        references.append(transcript)
+        hypotheses.append(text.lower())
+
+    return {
+        "label": label,
+        "samples": len(latencies),
+        "wer": jiwer.wer(references, hypotheses) if references else float("nan"),
+        "avg_latency_ms": np.mean(latencies) if latencies else 0.0,
+    }
+
+
 def evaluate_trigger_accuracy(model, samples: list, label: str) -> dict:
     import difflib
 
@@ -143,9 +166,24 @@ def main():
     asr_rows = [{"Model": base_asr["label"], "Samples": base_asr["samples"],
                  "WER": f"{base_asr['wer']:.2%}", "Avg Latency (ms)": f"{base_asr['avg_latency_ms']:.0f}"}]
 
-    # --- ASR: Fine-tuned (if available) ---
+    # --- ASR: Qwen3-ASR (optional dependency) ---
+    try:
+        from modules.asr.qwen_transcriber import QwenASRTranscriber
+        print(f"[2/4] Loading Qwen ASR ({config.QWEN_ASR_MODEL}) for comparison...")
+        qwen_asr = evaluate_qwen(
+            QwenASRTranscriber(), samples, f"Qwen ASR ({config.QWEN_ASR_MODEL})"
+        )
+        asr_rows.append({
+            "Model": qwen_asr["label"], "Samples": qwen_asr["samples"],
+            "WER": f"{qwen_asr['wer']:.2%}",
+            "Avg Latency (ms)": f"{qwen_asr['avg_latency_ms']:.0f}",
+        })
+    except RuntimeError as exc:
+        print(f"[2/4] Qwen ASR unavailable — skipping. {exc}")
+
+    # --- ASR: Fine-tuned Whisper (if available) ---
     if os.path.isdir(config.FINETUNED_ASR_PATH):
-        print(f"[2/3] Loading fine-tuned ASR from {config.FINETUNED_ASR_PATH}...")
+        print(f"[3/4] Loading fine-tuned ASR from {config.FINETUNED_ASR_PATH}...")
         from transformers import WhisperForConditionalGeneration, WhisperProcessor
         import torch
 
@@ -177,10 +215,10 @@ def main():
             "Avg Latency (ms)": f"{np.mean(latencies):.0f}" if latencies else "N/A",
         })
     else:
-        print(f"[2/3] Fine-tuned ASR model not found at {config.FINETUNED_ASR_PATH} — skipping.")
+        print(f"[3/4] Fine-tuned ASR model not found at {config.FINETUNED_ASR_PATH} — skipping.")
 
     # --- VAD trigger accuracy ---
-    print("[3/3] Evaluating trigger detection accuracy (base Whisper)...")
+    print("[4/4] Evaluating trigger detection accuracy (base Whisper)...")
     trig = evaluate_trigger_accuracy(base_model, samples, f"Base Whisper ({config.WHISPER_MODEL})")
     trig_rows = [{"Model": trig["label"], "Trigger Accuracy": f"{trig['accuracy_pct']:.1f}%",
                   "True Pos": trig["tp"], "False Neg": trig["fn"]}]

@@ -4,7 +4,12 @@ import pipeline
 
 
 def _print_banner() -> None:
-    asr_mode = f"fine-tuned ({config.FINETUNED_ASR_PATH})" if config.USE_FINETUNED_ASR else f"base Whisper ({config.WHISPER_MODEL})"
+    if config.ASR_BACKEND == "qwen":
+        asr_mode = f"Qwen ASR ({config.QWEN_ASR_MODEL})"
+    else:
+        asr_mode = (f"fine-tuned ({config.FINETUNED_ASR_PATH})"
+                    if config.USE_FINETUNED_ASR
+                    else f"base Whisper ({config.WHISPER_MODEL})")
     vad_mode = f"fine-tuned ({config.FINETUNED_VAD_PATH})" if config.USE_FINETUNED_VAD else f"base Whisper ({config.WHISPER_MODEL})"
     print("=" * 56)
     print("  DeepGI ASR Demo | VAD + ASR + TTS Pipeline")

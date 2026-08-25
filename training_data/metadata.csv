@@ -28,4 +28,33 @@ audio_filepath,text
 /content/drive/MyDrive/dataset/sample_027.wav,tattoo placed distal to polyp at descending colon
 /content/drive/MyDrive/dataset/sample_028.wav,Paris classification 1 s sessile polyp at transverse colon
 /content/drive/MyDrive/dataset/sample_029.wav,Boston Bowel Score 6 adequate preparation
-/content/drive/MyDrive/dataset/sample_030.wav,withdrawal time 9 minutes complete examination
+/content/drive/MyDrive/dataset/sample_030.wav,withdrawal time 9 minutes complete examinationtraining_data/audio/sample_031.wav,hey deepgi
+training_data/audio/sample_032.wav,hey deepgi polyp found
+training_data/audio/sample_033.wav,hey deepgi bleeding noted
+training_data/audio/sample_034.wav,hey deepgi lesion identified
+training_data/audio/sample_035.wav,hey deepgi diverticulum seen
+training_data/audio/sample_036.wav,hey deep gi
+training_data/audio/sample_037.wav,hey dgi
+training_data/audio/sample_038.wav,hey deepgee
+training_data/audio/sample_039.wav,hey deep gee
+training_data/audio/sample_040.wav,hey deepgi finding recorded
+training_data/audio/sample_041.wav,polyp at sigmoid colon 5 millimeters
+training_data/audio/sample_042.wav,bleeding at rectum
+training_data/audio/sample_043.wav,diverticulum at descending colon
+training_data/audio/sample_044.wav,Paris classification one p pedunculated polyp
+training_data/audio/sample_045.wav,sessile polyp at ascending colon 8 millimeters
+training_data/audio/sample_046.wav,flat lesion at transverse colon
+training_data/audio/sample_047.wav,biopsy taken from hepatic flexure
+training_data/audio/sample_048.wav,resection performed at splenic flexure
+training_data/audio/sample_049.wav,Boston Bowel Score 8 excellent preparation
+training_data/audio/sample_050.wav,cecum reached intubation time 4 minutes
+training_data/audio/sample_051.wav,polyp at sigmoid colon 12 millimeters pedunculated
+training_data/audio/sample_052.wav,no lesions identified throughout the colon
+training_data/audio/sample_053.wav,diverticulum at sigmoid colon mild diverticulosis
+training_data/audio/sample_054.wav,bleeding at ascending colon active oozing
+training_data/audio/sample_055.wav,Paris classification 2a flat elevated lesion at rectum
+training_data/audio/sample_056.wav,hot snare polypectomy performed at cecum
+training_data/audio/sample_057.wav,tattoo placed distal to polyp at descending colon
+training_data/audio/sample_058.wav,Paris classification 1 s sessile polyp at transverse colon
+training_data/audio/sample_059.wav,Boston Bowel Score 6 adequate preparation
+training_data/audio/sample_060.wav,withdrawal time 9 minutes complete examination

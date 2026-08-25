@@ -3,6 +3,13 @@ WHISPER_MODEL = "small"          # tiny, base, small, medium, large-v3
 LANGUAGE = "en"
 FP16 = False                     # False for macOS CPU
 
+# ASR backend. Leave this as "whisper" to retain the existing pipeline.
+# Set to "qwen" to run Qwen3-ASR instead.
+ASR_BACKEND = "whisper"          # "whisper" or "qwen"
+QWEN_ASR_MODEL = "Qwen/Qwen3-ASR-0.6B"  # Official Qwen3-ASR: 0.6B or 1.7B
+QWEN_ASR_DEVICE = "cpu"          # "cpu", "mps", or e.g. "cuda:0"
+QWEN_ASR_DTYPE = "float32"       # "float32", "float16", or "bfloat16"
+
 # Wake word
 TRIGGER_PHRASE = "hey deepgi"
 TRIGGER_VARIANTS = [
