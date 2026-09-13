@@ -48,9 +48,10 @@ class QwenASRTranscriber:
 
     def transcribe_audio(self, audio: np.ndarray, sample_rate: int) -> str:
         """Return text for a mono float waveform at ``sample_rate`` Hz."""
+        language = {"th": "Thai", "en": "English"}.get(config.LANGUAGE)
         result = self._get_model().transcribe(
             audio=(np.asarray(audio, dtype=np.float32), sample_rate),
-            language="English" if config.LANGUAGE == "en" else None,
+            language=language,
         )
         # The official API returns a list of ASRTranscription objects.
         return result[0].text.strip()

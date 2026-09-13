@@ -1,14 +1,27 @@
 # Model settings
-WHISPER_MODEL = "small"          # tiny, base, small, medium, large-v3
-LANGUAGE = "en"
-FP16 = False                     # False for macOS CPU
+WHISPER_MODEL = "medium"          # tiny, base, small, medium, large-v3
+TRIGGER_WHISPER_MODEL = "tiny"  # tiny, base, small, medium, large-v3
+LANGUAGE = "en"                  # Language for the spoken colonoscopy finding
+TRIGGER_LANGUAGE = "en"           # Wake phrase is "Hey DeepGI"
+ASR_DEVICE = "cuda"             # ASR/Whisper device: "cuda", "cuda:0", or "cpu"
+FP16 = True                      # Use half precision for Whisper on CUDA
 
 # ASR backend. Leave this as "whisper" to retain the existing pipeline.
 # Set to "qwen" to run Qwen3-ASR instead.
 ASR_BACKEND = "whisper"          # "whisper" or "qwen"
 QWEN_ASR_MODEL = "Qwen/Qwen3-ASR-0.6B"  # Official Qwen3-ASR: 0.6B or 1.7B
-QWEN_ASR_DEVICE = "cpu"          # "cpu", "mps", or e.g. "cuda:0"
-QWEN_ASR_DTYPE = "float32"       # "float32", "float16", or "bfloat16"
+QWEN_ASR_DEVICE = "cuda:0"       # "cpu", "mps", or e.g. "cuda:0"
+QWEN_ASR_DTYPE = "float16"       # "float32", "float16", or "bfloat16"
+
+# Qwen LLM + LoRA inference
+# The LoRA adapter in llm_qwen was trained from Qwen/Qwen2.5-3B-Instruct.
+LLM_BASE_MODEL_PATH = r"D:\DeepGI\DeepGI-Testing\models\Qwen2.5-3B-Instruct"
+LLM_HF_REPO_ID = "Qwen/Qwen2.5-3B-Instruct"
+LLM_LORA_PATH = r"D:\DeepGI\DeepGI-Testing\llm_qwen"
+LLM_DEVICE = "cuda:0"             # Keep the LLM on GPU; use "cpu" to override
+LLM_DTYPE = "float16"              # "auto", "float32", "float16", "bfloat16"
+LLM_MAX_NEW_TOKENS = 384
+LLM_LOCAL_FILES_ONLY = True       # Load locally after the explicit completeness check
 
 # Wake word
 TRIGGER_PHRASE = "hey deepgi"

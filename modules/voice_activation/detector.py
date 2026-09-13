@@ -309,8 +309,9 @@ def _get_whisper_model():
 
     if _whisper_model is None:
         import whisper
-        print(f"[VAD] Loading Whisper {config.WHISPER_MODEL} for trigger detection...")
-        _whisper_model = whisper.load_model(config.WHISPER_MODEL)
+        model_name = getattr(config, "TRIGGER_WHISPER_MODEL", config.WHISPER_MODEL)
+        print(f"[VAD] Loading Whisper {model_name} on {config.ASR_DEVICE} for trigger detection...")
+        _whisper_model = whisper.load_model(model_name, device=config.ASR_DEVICE)
 
     return _whisper_model
 
@@ -341,30 +342,99 @@ def _is_trigger(text: str) -> bool:
     return False
 
 
+def _transcribe_voiced_frames(model, voiced_frames) -> bool:
+    """Transcribe a WebRTC VAD segment with the base Whisper model."""
+    if not voiced_frames:
+        return False
+
+    audio = pcm16_bytes_to_float32(b"".join(voiced_frames))
+
+    if calc_rms(audio) < SILENCE_RMS_THRESHOLD:
+        return False
+
+    result = model.transcribe(
+        audio,
+        language=getattr(config, "TRIGGER_LANGUAGE", "en"),
+        fp16=config.FP16,
+        condition_on_previous_text=False,
+    )
+
+    heard = result["text"]
+    print(f"[VAD] Heard: {heard.strip()!r}")
+
+    if _is_trigger(heard):
+        print("[VAD] Trigger detected!")
+        return True
+
+    return False
+
+
 def _wait_for_trigger_base():
     model = _get_whisper_model()
 
-    while True:
-        audio = _record_audio(config.TRIGGER_CHUNK_DURATION)
+    if FRAME_MS not in (10, 20, 30):
+        raise ValueError("FRAME_MS must be 10, 20, or 30 for WebRTC VAD.")
 
-        rms = calc_rms(audio)
+    if SAMPLE_RATE not in (8000, 16000, 32000, 48000):
+        raise ValueError("SAMPLE_RATE must be 8000, 16000, 32000, or 48000 for WebRTC VAD.")
 
-        if rms < SILENCE_RMS_THRESHOLD:
-            continue
+    ring_buffer = collections.deque(maxlen=PRE_ROLL_FRAMES)
+    voiced_frames = []
+    triggered = False
+    silence_count = 0
 
-        result = model.transcribe(
-            audio,
-            language=config.LANGUAGE,
-            fp16=config.FP16,
-            condition_on_previous_text=False,
-        )
+    clear_audio_queue()
 
-        heard = result["text"]
-        print(f"[VAD] Heard: {heard.strip()!r}")
+    print('[VAD] Listening for wake word with WebRTC VAD + Whisper...')
 
-        if _is_trigger(heard):
-            print("[VAD] Trigger detected!")
-            return
+    with sd.RawInputStream(
+        samplerate=SAMPLE_RATE,
+        blocksize=FRAME_SAMPLES,
+        dtype="int16",
+        channels=CHANNELS,
+        callback=audio_callback,
+    ):
+        while True:
+            frame = audio_queue.get()
+
+            try:
+                is_speech = vad.is_speech(frame, SAMPLE_RATE)
+            except Exception as e:
+                print(f"[VAD] vad.is_speech error: {e}")
+                continue
+
+            if not triggered:
+                ring_buffer.append(frame)
+
+                if is_speech:
+                    triggered = True
+                    voiced_frames.extend(ring_buffer)
+                    ring_buffer.clear()
+                    silence_count = 0
+                    print("[VAD] Speech started.")
+            else:
+                voiced_frames.append(frame)
+
+                if is_speech:
+                    silence_count = 0
+                else:
+                    silence_count += 1
+
+                too_much_silence = silence_count >= END_SILENCE_FRAMES
+                too_long = len(voiced_frames) >= MAX_TRIGGER_FRAMES
+
+                if too_much_silence or too_long:
+                    print("[VAD] Speech ended.")
+
+                    found = _transcribe_voiced_frames(model, voiced_frames)
+
+                    triggered = False
+                    voiced_frames = []
+                    silence_count = 0
+                    ring_buffer.clear()
+
+                    if found:
+                        return
 
 
 # =========================

@@ -11,8 +11,11 @@ def _get_whisper_model():
     global _whisper_model
     if _whisper_model is None:
         import whisper
-        print(f"[ASR] Loading Whisper {config.WHISPER_MODEL}...")
-        _whisper_model = whisper.load_model(config.WHISPER_MODEL)
+        print(f"[ASR] Loading Whisper {config.WHISPER_MODEL} on {config.ASR_DEVICE}...")
+        _whisper_model = whisper.load_model(
+            config.WHISPER_MODEL,
+            device=config.ASR_DEVICE,
+        )
     return _whisper_model
 
 
@@ -23,7 +26,9 @@ def _get_hf_pipeline():
         import torch
         print(f"[ASR] Loading fine-tuned model from {config.FINETUNED_ASR_PATH}...")
         processor = WhisperProcessor.from_pretrained(config.FINETUNED_ASR_PATH)
-        model = WhisperForConditionalGeneration.from_pretrained(config.FINETUNED_ASR_PATH)
+        model = WhisperForConditionalGeneration.from_pretrained(
+            config.FINETUNED_ASR_PATH
+        ).to(config.ASR_DEVICE)
         model.eval()
         _hf_pipeline = (processor, model)
     return _hf_pipeline
@@ -65,6 +70,10 @@ def transcribe_finding() -> str:
             sampling_rate=config.SAMPLE_RATE,
             return_tensors="pt",
         )
+        inputs = {
+            key: value.to(config.ASR_DEVICE)
+            for key, value in inputs.items()
+        }
         with torch.no_grad():
             predicted_ids = model.generate(
                 inputs["input_features"],
