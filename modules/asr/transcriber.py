@@ -4,14 +4,18 @@ import config
 
 _whisper_model = None
 _hf_pipeline = None
+_qwen_transcriber = None
 
 
 def _get_whisper_model():
     global _whisper_model
     if _whisper_model is None:
         import whisper
-        print(f"[ASR] Loading Whisper {config.WHISPER_MODEL}...")
-        _whisper_model = whisper.load_model(config.WHISPER_MODEL)
+        print(f"[ASR] Loading Whisper {config.WHISPER_MODEL} on {config.ASR_DEVICE}...")
+        _whisper_model = whisper.load_model(
+            config.WHISPER_MODEL,
+            device=config.ASR_DEVICE,
+        )
     return _whisper_model
 
 
@@ -22,10 +26,20 @@ def _get_hf_pipeline():
         import torch
         print(f"[ASR] Loading fine-tuned model from {config.FINETUNED_ASR_PATH}...")
         processor = WhisperProcessor.from_pretrained(config.FINETUNED_ASR_PATH)
-        model = WhisperForConditionalGeneration.from_pretrained(config.FINETUNED_ASR_PATH)
+        model = WhisperForConditionalGeneration.from_pretrained(
+            config.FINETUNED_ASR_PATH
+        ).to(config.ASR_DEVICE)
         model.eval()
         _hf_pipeline = (processor, model)
     return _hf_pipeline
+
+
+def _get_qwen_transcriber():
+    global _qwen_transcriber
+    if _qwen_transcriber is None:
+        from modules.asr.qwen_transcriber import QwenASRTranscriber
+        _qwen_transcriber = QwenASRTranscriber()
+    return _qwen_transcriber
 
 
 def _record_audio(duration: float) -> np.ndarray:
@@ -34,16 +48,34 @@ def _record_audio(duration: float) -> np.ndarray:
         samplerate=config.SAMPLE_RATE,
         channels=1,
         dtype="float32",
+        device=config.AUDIO_DEVICE,
     )
     sd.wait()
     return audio.flatten()
 
 
-def transcribe_finding() -> str:
+def warmup():
+    if config.ASR_BACKEND == "qwen":
+        _get_qwen_transcriber()._get_model()
+    elif config.ASR_BACKEND != "whisper":
+        raise ValueError(f"Unsupported ASR_BACKEND: {config.ASR_BACKEND!r}")
+    elif config.USE_FINETUNED_ASR:
+        _get_hf_pipeline()
+    else:
+        _get_whisper_model()
+
+
+def transcribe_finding(on_status=None) -> str:
     """Record FINDING_DURATION seconds and return the transcribed text."""
     audio = _record_audio(config.FINDING_DURATION)
+    if on_status:
+        on_status("Transcribing")
 
-    if config.USE_FINETUNED_ASR:
+    if config.ASR_BACKEND == "qwen":
+        text = _get_qwen_transcriber().transcribe_audio(audio, config.SAMPLE_RATE)
+    elif config.ASR_BACKEND != "whisper":
+        raise ValueError(f"Unsupported ASR_BACKEND: {config.ASR_BACKEND!r}")
+    elif config.USE_FINETUNED_ASR:
         import torch
         processor, model = _get_hf_pipeline()
         inputs = processor(
@@ -51,6 +83,10 @@ def transcribe_finding() -> str:
             sampling_rate=config.SAMPLE_RATE,
             return_tensors="pt",
         )
+        inputs = {
+            key: value.to(config.ASR_DEVICE)
+            for key, value in inputs.items()
+        }
         with torch.no_grad():
             predicted_ids = model.generate(
                 inputs["input_features"],
