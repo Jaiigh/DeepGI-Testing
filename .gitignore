@@ -18,3 +18,4 @@ build/
 .env
 llm_qwen
 .vscode/
+/models/*
