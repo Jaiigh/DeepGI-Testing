@@ -1,5 +1,4 @@
 import os
-import sys
 import json
 from datetime import datetime
 
@@ -40,6 +39,50 @@ def _spoken_summary(result: dict) -> str:
     return " ".join(parts) if parts else "Finding processed."
 
 
+class FindingProcessingError(RuntimeError):
+    def __init__(self, stage, transcription, cause):
+        super().__init__(str(cause))
+        self.stage = stage
+        self.transcription = transcription
+
+
+def process_finding(on_status=None, on_result=None, strict=False):
+    """Capture one finding; acknowledge/persist the result before speaking it.
+
+    on_result(text, result) may return False to suppress spoken feedback when
+    persistence fails. Empty ASR returns None. Errors retain stage and text.
+    """
+    status = on_status or (lambda value: print(f"[Voice] {value}"))
+    stage, finding = "Prompting", ""
+    try:
+        status(stage)
+        speak("Please say your finding.")
+        stage = "Recording"
+        status(stage)
+
+        def asr_status(value):
+            nonlocal stage
+            stage = value
+            status(value)
+
+        finding = transcribe_finding(on_status=asr_status)
+        if not finding:
+            status("No finding heard. Say Hey DeepGI to try again.")
+            return None
+        stage = "Extracting"
+        status(stage)
+        result = extract_finding(finding, strict=strict)
+        stage = "Saving"
+        saved = (on_result or _append_finding)(finding, result)
+        if saved is not False:
+            stage = "Speaking"
+            status(stage)
+            speak(_spoken_summary(result))
+        return {"transcription": finding, "result": result}
+    except Exception as exc:
+        raise FindingProcessingError(stage, finding, exc) from exc
+
+
 def run_pipeline() -> None:
     try:
         print("[TTS] Loading Kokoro...")
@@ -51,18 +94,10 @@ def run_pipeline() -> None:
             print("\n👂 Listening for 'Hey DeepGI'...")
             wait_for_trigger()
             print(f"🔴 Trigger detected! Recording finding ({config.FINDING_DURATION} seconds)...")
-            speak("Please say your finding.")
-            finding = transcribe_finding()
-            print(f"📝 Finding: {finding}")
-            if not finding:
-                print("[LLM] ASR returned empty text; skipping LLM extraction.")
-                speak("I did not hear a finding. Please try again.")
-                continue
-            print("[LLM] Extracting structured JSON...")
-            structured = extract_finding(finding)
-            print(json.dumps(structured, ensure_ascii=False, indent=2))
-            speak(_spoken_summary(structured))
-            _append_finding(finding, structured)
+            try:
+                process_finding()
+            except FindingProcessingError as exc:
+                print(f"[ERROR] {exc.stage}: {exc}")
             print("👂 Listening again...")
     except KeyboardInterrupt:
         print("\nSession ended.")

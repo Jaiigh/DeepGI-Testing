@@ -29,7 +29,7 @@ def _get_audio(text: str):
 def warmup() -> None:
     """Load Kokoro and pre-render the first fixed response before listening."""
     if config.USE_KOKORO_TTS:
-        _get_audio("Trigger detected. Please say your finding.")
+        _get_audio("Please say your finding.")
 
 
 def speak(text: str, voice: str = "Samantha") -> None:

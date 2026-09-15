@@ -369,7 +369,7 @@ def _transcribe_voiced_frames(model, voiced_frames) -> bool:
     return False
 
 
-def _wait_for_trigger_base():
+def _wait_for_trigger_base(stop_event=None):
     model = _get_whisper_model()
 
     if FRAME_MS not in (10, 20, 30):
@@ -393,9 +393,13 @@ def _wait_for_trigger_base():
         dtype="int16",
         channels=CHANNELS,
         callback=audio_callback,
+        device=config.AUDIO_DEVICE,
     ):
-        while True:
-            frame = audio_queue.get()
+        while stop_event is None or not stop_event.is_set():
+            try:
+                frame = audio_queue.get(timeout=0.1)
+            except queue.Empty:
+                continue
 
             try:
                 is_speech = vad.is_speech(frame, SAMPLE_RATE)
@@ -427,6 +431,8 @@ def _wait_for_trigger_base():
                     print("[VAD] Speech ended.")
 
                     found = _transcribe_voiced_frames(model, voiced_frames)
+                    if stop_event is not None and stop_event.is_set():
+                        return False
 
                     triggered = False
                     voiced_frames = []
@@ -434,14 +440,15 @@ def _wait_for_trigger_base():
                     ring_buffer.clear()
 
                     if found:
-                        return
+                        return True
+    return False
 
 
 # =========================
 # Finetuned VAD flow
 # =========================
 DEBUG_VOICE_DIR = "debug_voice_frames"
-def _wait_for_trigger_finetuned():
+def _wait_for_trigger_finetuned(stop_event=None):
     load_finetuned_vad_model()
 
     if FRAME_MS not in (10, 20, 30):
@@ -466,9 +473,13 @@ def _wait_for_trigger_finetuned():
         dtype="int16",
         channels=CHANNELS,
         callback=audio_callback,
+        device=config.AUDIO_DEVICE,
     ):
-        while True:
-            frame = audio_queue.get()
+        while stop_event is None or not stop_event.is_set():
+            try:
+                frame = audio_queue.get(timeout=0.1)
+            except queue.Empty:
+                continue
 
             try:
                 is_speech = vad.is_speech(frame, SAMPLE_RATE)
@@ -501,6 +512,8 @@ def _wait_for_trigger_finetuned():
                     print("[VAD] Speech ended.")
 
                     found = process_voiced_frames(voiced_frames)
+                    if stop_event is not None and stop_event.is_set():
+                        return False
 
                     triggered = False
                     voiced_frames = []
@@ -508,18 +521,26 @@ def _wait_for_trigger_finetuned():
                     ring_buffer.clear()
 
                     if found:
-                        return
+                        return True
+    return False
 
 
 # =========================
 # Public function
 # =========================
 
-def wait_for_trigger():
+def warmup():
+    if config.USE_FINETUNED_VAD:
+        load_finetuned_vad_model()
+    else:
+        _get_whisper_model()
+
+
+def wait_for_trigger(stop_event=None):
     """
-    Block until the trigger phrase is detected, then return.
+    Return True for a detected trigger, or False when stop_event is set.
     """
     if getattr(config, "USE_FINETUNED_VAD", False):
-        _wait_for_trigger_finetuned()
+        return _wait_for_trigger_finetuned(stop_event)
     else:
-        _wait_for_trigger_base()
+        return _wait_for_trigger_base(stop_event)

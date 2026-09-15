@@ -184,19 +184,23 @@ class QwenLoraExtractor:
         self._model.eval()
 
     @staticmethod
-    def _extract_json(text: str) -> dict[str, Any]:
+    def _extract_json(text: str, strict: bool = False) -> dict[str, Any]:
         text = text.strip()
         try:
             value = json.loads(text)
-            return value if isinstance(value, dict) else {}
+            if isinstance(value, dict):
+                return value
         except json.JSONDecodeError:
             match = re.search(r"\{.*\}", text, re.DOTALL)
             if match:
                 try:
                     value = json.loads(match.group(0))
-                    return value if isinstance(value, dict) else {}
+                    if isinstance(value, dict):
+                        return value
                 except json.JSONDecodeError:
                     pass
+        if strict:
+            raise ValueError("The extraction model did not return a valid JSON object.")
         return {}
 
     @staticmethod
@@ -215,7 +219,7 @@ class QwenLoraExtractor:
             result["size_mm"] = int(result["size_mm"])
         return result
 
-    def extract(self, finding: str) -> dict[str, Any]:
+    def extract(self, finding: str, strict: bool = False) -> dict[str, Any]:
         self._load()
         import torch
 
@@ -241,7 +245,7 @@ class QwenLoraExtractor:
             )
         generated = output[0][inputs["input_ids"].shape[-1]:]
         text = self._tokenizer.decode(generated, skip_special_tokens=True)
-        return self._normalize_result(self._extract_json(text))
+        return self._normalize_result(self._extract_json(text, strict=strict))
 
     def warmup(self) -> None:
         """Load the base model and adapter before microphone capture starts."""
@@ -251,8 +255,8 @@ class QwenLoraExtractor:
 _extractor = QwenLoraExtractor()
 
 
-def extract_finding(finding: str) -> dict[str, Any]:
-    return _extractor.extract(finding)
+def extract_finding(finding: str, strict: bool = False) -> dict[str, Any]:
+    return _extractor.extract(finding, strict=strict)
 
 
 def warmup() -> None:

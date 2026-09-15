@@ -1,26 +1,102 @@
 # DeepGI ASR
 
-Voice-activated speech recognition pipeline for colonoscopy findings reporting on macOS.
+Voice-activated colonoscopy findings reporting, with a desktop procedure workflow targeting Windows and NVIDIA GPUs and an existing command-line pipeline.
 
-Say **"Hey DeepGI"** to activate, speak your finding, and the system transcribes and logs it — all offline, no cloud required.
+During withdrawal, say **"Hey DeepGI"**, wait for the spoken prompt to finish, then dictate your finding. The system transcribes it, extracts seven structured fields, and saves the result. Inference runs locally; initial model downloads require network access.
+
+## Desktop app (Windows / NVIDIA)
+
+Use Python 3.11 or 3.12 with Tcl/Tk installed (included by the standard Windows Python installer). Install the repository dependencies in your environment, including a PyTorch build that supports your NVIDIA GPU. Whisper also requires FFmpeg available on PATH. Kokoro requires its voice/model assets and eSpeak NG installed and available on Windows.
+
+```powershell
+py -3.11 -m venv venv
+.\venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python -c "import torch; print(torch.cuda.is_available())"
+python -c "import sounddevice as sd; print(sd.query_devices())"
+```
+
+Before launching, edit `config.py`:
+
+- Point `LLM_BASE_MODEL_PATH` and `LLM_LORA_PATH` at your local Qwen2.5-3B-Instruct and trained LoRA folders. The adapter must include `adapter_config.json` and its weights. Incomplete base weights may be downloaded automatically.
+- Set `AUDIO_DEVICE` to the input-device ID printed above, or `None` for the system default. Wake-word detection and finding recording use this same device. Speech playback uses the system output device.
+- Keep `ASR_DEVICE = "cuda"`, `LLM_DEVICE = "cuda:0"`, and `USE_KOKORO_TTS = True` for the current Windows configuration. The `say` fallback is macOS-specific.
+- Current defaults are Whisper tiny for the wake word, Whisper medium for findings, English transcription, and an eight-second finding recording. CNN detection remains optional through `USE_FINETUNED_VAD` and its checkpoint.
+
+```powershell
+python desktop_app.py
+```
+
+The window opens while models load in the background. Start Procedure becomes available when loading succeeds and both IDs have been entered. Missing models/dependencies appear in the window with a **Retry Loading** button.
+
+| Phase | Input | Behavior |
+|---|---|---|
+| Ready | Enter case ID and patient ID; **Start Procedure** | Freeze IDs and record case start; enter Insertion |
+| Insertion | **Found Caecum / Start Withdrawal** | Record the landmark, start the withdrawal timer, and enable wake-word listening |
+| Withdrawal | **Hey DeepGI**, then dictate after the prompt | Capture one finding, extract JSON, save it, and read a summary; resume listening |
+| Withdrawal | **Reached Anus / End Procedure** | Record anus arrival and case end; immediately freeze the timer and stop accepting triggers |
+| Completed | **Export JSON** or **New Case** | Export all data, or clear the saved case and return to Ready |
+
+Withdrawal time includes recording, model processing, and speech playback. If End Procedure is pressed during an accepted finding, the timer freezes immediately and that finding finishes before final export/New Case become available. Findings are enabled only during Withdrawal. There is no separate Record button.
+
+The interface shows the phase, timer, voice activity, findings list, event log, and final JSON. Select a finding to inspect its transcription and all seven fields: `lesion_type`, `location`, `size_mm`, `procedure`, `biopsy_forceps`, `biopsy_pieces`, and `pathology`.
+
+### Case output and recovery
+
+Each case is automatically saved to `outputs/reports/case_<internal_id>.json`. Entered IDs are stored as data, not used in filenames; separate cases can use the same entered IDs without overwriting earlier files. Saves replace snapshots atomically after state changes and finding outcomes.
+
+The JSON contains `schema_version`, `internal_id`, `case_id`, `patient_id`, `procedure_type`, `phase`, timezone-aware start/landmark/end timestamps, `withdrawal_duration_seconds`, `events`, `findings`, `processing_errors`, and a final `summary`. Each finding includes capture/completion timestamps, transcription, and its seven-field `result`. `pending_finding`, `incomplete`, `interrupted_at`, and `finalized` distinguish unfinished snapshots from final results. The timer uses a monotonic clock; changing the system time does not change elapsed duration.
+
+Events include `CASE_START`, `LANDMARK_DETECTED` (`CECUM` or `ANUS`), `WITHDRAWAL_START`, `FINDING_DETECTED`, and `CASE_END`. Findings accepted before case end may finish afterward, so their result event can follow `CASE_END`; capture and completion timestamps distinguish these moments. Errors and explicit app interruption are recorded as `PROCESSING_ERROR` and `CASE_INTERRUPTED`.
+
+Empty recordings add no finding. Extraction errors retain any available transcription in `processing_errors`; malformed model JSON is reported as an error. A speech-playback error leaves an already saved finding intact. **Retry Listening** restarts the voice loop after an audio/processing failure without resetting the case or timer.
+
+Save failures retain results in memory and enable **Retry Save**. New Case and export remain unavailable until data is saved. Closing an active case asks for confirmation, freezes its timer, stops listening, lets an accepted finding finish, and saves an incomplete snapshot without adding a normal case-end event. The window remains responsive while an in-flight model operation finishes. Interrupted files can be inspected manually; reopening/resuming them is not implemented.
+
+This version handles one case at a time. Video detection, external REST/WebSocket integrations, BBPS, intervention/device tracking, physician editing/confirmation, and narrative report generation are not implemented.
+
+### Verification
+
+Run automated controller, voice control-flow, and desktop message-handler tests without downloading models or using a microphone:
+
+```powershell
+python -m unittest discover -s tests -v
+```
+
+An optional real-window smoke test uses fake voice input, exercises the buttons/results/export, and closes automatically:
+
+```powershell
+python tests/desktop_smoke.py
+```
+
+On the Windows GPU machine, verify the real audio path:
+
+1. Launch `desktop_app.py`, wait for model readiness, and enter both IDs. Confirm buttons enforce Ready → Insertion → Withdrawal.
+2. Start withdrawal and check that its timer increments. Say Hey DeepGI, wait for the full prompt, and dictate an English finding within eight seconds. Check transcription, seven fields, and spoken feedback; repeat for a second finding.
+3. End the procedure while a finding is recording or extracting. Confirm the timer freezes at the button press, the pending finding finishes, and no further wake words are accepted.
+4. Inspect/export the final JSON: IDs, events, timezone-aware timestamps, frozen duration, and all findings should match the window.
+5. Start a new case and finish with zero findings; confirm earlier files are intact. Test microphone disconnection/retry and closing during an active case; confirm the incomplete snapshot has no fabricated case-end event.
 
 ---
 
 ## How It Works
 
 ```
-Microphone → VAD (CNN wake word) → ASR (Whisper or Qwen3-ASR) → TTS (macOS say) → Log file
+Microphone → VAD + wake-word detector → ASR → Qwen/LoRA extraction → Save → TTS
 ```
 
 | Component | What it does |
 |-----------|-------------|
-| **VAD** | Listens continuously for "Hey DeepGI" using a CNN wake word model |
+| **VAD** | WebRTC speech segmentation followed by Whisper tiny (default) or an optional CNN wake word model |
 | **ASR** | Records 8 seconds and transcribes with Whisper or optional Qwen3-ASR |
-| **TTS** | Reads the finding back using macOS `say` (or Kokoro neural TTS) |
+| **LLM** | Extracts seven structured finding fields with Qwen2.5 + LoRA |
+| **TTS** | Reads a summary using Kokoro (default) or macOS `say` |
 
 ---
 
-## Setup
+## Command-line setup (macOS)
+
+The existing `python pipeline.py` and `python demo.py` entry points retain the continuous finding loop without desktop phase controls. Configure local model paths and CPU/device settings before using them on macOS; the checked-in settings target Windows/CUDA.
 
 ```bash
 # 1. Clone the repo and enter the directory
@@ -119,10 +195,11 @@ Say "Hey DeepGI" — the confidence score prints on each attempt.
 | Setting | Default | Description |
 |---------|---------|-------------|
 | `AUDIO_DEVICE` | `1` | Microphone device ID (`None` = system default) |
-| `USE_FINETUNED_VAD` | `True` | Use CNN wake word model |
+| `USE_FINETUNED_VAD` | `False` | Enable the optional CNN wake word model |
 | `USE_FINETUNED_ASR` | `False` | Use fine-tuned Whisper (requires training) |
-| `USE_KOKORO_TTS` | `False` | Use Kokoro neural TTS (requires 400MB download) |
-| `WHISPER_MODEL` | `"small"` | Whisper model size |
+| `USE_KOKORO_TTS` | `True` | Use Kokoro neural TTS |
+| `WHISPER_MODEL` | `"medium"` | Finding transcription model size |
+| `TRIGGER_WHISPER_MODEL` | `"tiny"` | Wake-word transcription model size |
 | `ASR_BACKEND` | `"whisper"` | Select `"whisper"` or optional `"qwen"` backend |
 | `QWEN_ASR_MODEL` | `"Qwen/Qwen3-ASR-0.6B"` | Qwen model for the optional backend |
 | `TRIGGER_CHUNK_DURATION` | `3` | Seconds of audio passed to CNN |
@@ -132,7 +209,7 @@ Say "Hey DeepGI" — the confidence score prints on each attempt.
 
 ## Optional: Kokoro Neural TTS
 
-By default the system uses macOS `say` for speech output. To use the higher quality Kokoro TTS:
+Kokoro is enabled by default. Initial setup may require downloading its model assets:
 
 ```bash
 # Download the model (~400MB, one time only)
