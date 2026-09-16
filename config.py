@@ -27,3 +27,6 @@ USE_FINETUNED_ASR = False        # True to use fine-tuned model
 USE_FINETUNED_VAD = False        # True to use trained wake word model
 FINETUNED_ASR_PATH = "outputs/models/whisper-deepgi"
 FINETUNED_VAD_PATH = "outputs/models/vad-deepgi"
+
+# Typhoon ASR toggle
+USE_TYPHOON_ASR = True

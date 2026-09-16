@@ -2,8 +2,19 @@ import numpy as np
 import sounddevice as sd
 import config
 
+_typhoon_model = None
 _whisper_model = None
 _hf_pipeline = None
+
+
+def _get_typhoon_model():
+    global _typhoon_model
+
+    if _typhoon_model is None:
+        from modules.asr.typhoon import TyphoonASR
+        _typhoon_model = TyphoonASR()
+
+    return _typhoon_model
 
 
 def _get_whisper_model():
@@ -29,6 +40,8 @@ def _get_hf_pipeline():
 
 
 def _record_audio(duration: float) -> np.ndarray:
+    print(f"[ASR] Recording for {duration} seconds...")
+
     audio = sd.rec(
         int(duration * config.SAMPLE_RATE),
         samplerate=config.SAMPLE_RATE,
@@ -43,7 +56,13 @@ def transcribe_finding() -> str:
     """Record FINDING_DURATION seconds and return the transcribed text."""
     audio = _record_audio(config.FINDING_DURATION)
 
-    if config.USE_FINETUNED_ASR:
+    # Typhoon ASR
+    if config.USE_TYPHOON_ASR:
+        model = _get_typhoon_model()
+        text = model.transcribe(audio)
+
+    # Fine-tuned Whisper
+    elif config.USE_FINETUNED_ASR:
         import torch
         processor, model = _get_hf_pipeline()
         inputs = processor(
@@ -59,6 +78,8 @@ def transcribe_finding() -> str:
                 ),
             )
         text = processor.batch_decode(predicted_ids, skip_special_tokens=True)[0]
+    
+    # Base OpenAI Whisper
     else:
         model = _get_whisper_model()
         result = model.transcribe(
