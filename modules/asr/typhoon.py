@@ -11,12 +11,13 @@ class TyphoonASR:
             device = 0
             torch_dtype = torch.float16
             print("[ASR] Using CUDA")
+            print(f"[ASR] GPU: {torch.cuda.get_device_name(0)}")
         else:
             device = -1
             torch_dtype = torch.float32
             print("[ASR] Using CPU")
 
-        print(f"[ASR] Loading Typhoon Whisper Turbo...")
+        print("[ASR] Loading Typhoon Whisper Turbo...")
 
         self.pipe = pipeline(
             "automatic-speech-recognition",
