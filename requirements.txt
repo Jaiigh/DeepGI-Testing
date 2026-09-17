@@ -17,3 +17,4 @@ openwakeword
 kokoro==0.7.16
 soundfile
 webrtcvad-wheels
+reportlab

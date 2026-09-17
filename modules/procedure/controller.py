@@ -9,6 +9,8 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 
+from generate_endoscopy_pdf import generate_pdf_from_json
+
 
 def atomic_write_json(path, data):
     path = Path(path)
@@ -50,6 +52,10 @@ class ProcedureController:
     @property
     def path(self):
         return self.report_dir / ("case_" + self.case["internal_id"] + ".json")
+
+    @property
+    def pdf_path(self):
+        return self.report_dir / ("case_" + self.case["internal_id"] + ".pdf")
 
     @property
     def duration(self):
@@ -180,6 +186,11 @@ class ProcedureController:
         self.dirty = True
         try:
             self._writer(self.path, self.snapshot())
+            if self.finalized:
+                generate_pdf_from_json(
+                    self.path,
+                    self.pdf_path,
+                )
         except Exception as exc:
             self.save_error = str(exc)
             return False
