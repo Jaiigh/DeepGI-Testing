@@ -1,12 +1,20 @@
+# kokoro pins numpy to 1.26.4; use Python 3.11 or 3.12 for Windows wheels.
 openai-whisper
 sounddevice
-numpy
+numpy==1.26.4
 scipy
+matplotlib
 transformers
+huggingface_hub
 datasets
 accelerate
+peft
 evaluate
 jiwer
 torch
 torchaudio
 openwakeword
+kokoro==0.7.16
+soundfile
+webrtcvad-wheels
+reportlab

@@ -24,7 +24,7 @@ from sklearn.preprocessing import StandardScaler
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import config
 
-METADATA_CSV = "training_data/metadata.csv"
+METADATA_CSV = "training_data/audio_vad/metadata.csv"
 OUTPUT_MODEL_DIR = config.FINETUNED_VAD_PATH
 TRIGGER_KEYWORDS = ["hey deepgi", "hey deep gi", "hey dgi", "hey deepgee", "hey deep gee"]
 
@@ -55,13 +55,18 @@ def load_samples():
     with open(METADATA_CSV, newline="") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            path = row["audio_filepath"]
-            text = row["text"].strip().lower()
+            # Fix Windows backslashes in paths recorded on macOS
+            path = row["audio_filepath"].replace("\\", "/")
             if not os.path.exists(path):
                 print(f"  [WARN] Missing file: {path} — skipping")
                 continue
             features = extract_features(path)
-            label = 1 if any(kw in text for kw in TRIGGER_KEYWORDS) else 0
+            # Use label column directly if present, otherwise infer from text
+            if "label" in row and row["label"].strip() in ("0", "1"):
+                label = int(row["label"].strip())
+            else:
+                text = row["text"].strip().lower()
+                label = 1 if any(kw in text for kw in TRIGGER_KEYWORDS) else 0
             X.append(features)
             y.append(label)
 
