@@ -55,9 +55,84 @@ Save failures retain results in memory and enable **Retry Save**. New Case and e
 
 This version handles one case at a time. Video detection, external REST/WebSocket integrations, BBPS, intervention/device tracking, physician editing/confirmation, and narrative report generation are not implemented.
 
+### Module boundaries and caecum signals
+
+The desktop is a view and input adapter. It creates widgets, displays state,
+collects case/patient IDs, and opens confirmation/Save As dialogs. Business rules
+and worker coordination live under `modules/`; `desktop_app.py` does not call the
+controller or voice worker directly.
+
+| Component | Responsibility |
+|---|---|
+| `modules/caecum.py` | `CaecumDetected` signal and `CaecumModule`; bind a detection to the current internal case ID and ask the controller to start withdrawal |
+| `modules/procedure/workflow.py` | `ProcedureWorkflow`; model readiness, event dispatch, voice-worker messages, retries, ending/resetting a case, export, and graceful shutdown |
+| `modules/procedure/controller.py` | Authoritative phase transitions, monotonic timer, findings, case persistence, and finalization |
+| `modules/procedure/voice_worker.py` | Existing background audio/model execution and request/reply queues |
+| `desktop_app.py` | Render `WorkflowState`, forward inputs, and poll the workflow every 100 ms |
+
+```mermaid
+flowchart LR
+    Button[Found Caecum button] --> Dispatch[Workflow dispatch]
+    Detector[Future detector] --> Queue[submit_event queue]
+    Queue --> Dispatch
+    Dispatch --> Caecum[CaecumModule]
+    Caecum --> Controller[Controller: withdrawal and timer]
+    Dispatch --> Voice[Start voice worker after accepted transition]
+    Dispatch --> State[WorkflowState]
+    State --> UI[Desktop display]
+```
+
+The button is still the actual caecum input. No vision detector, device protocol,
+or network endpoint is added. Future producers can send the same signal without
+implementing timing or phase logic themselves:
+
+```python
+from modules.caecum import CaecumDetected
+
+# On the application thread, capture the internal ID when assigning a case to
+# the detector. `workflow` is the app's existing ProcedureWorkflow instance.
+case_internal_id = workflow.state().case_internal_id
+
+# Called later by the detector, including from a background thread:
+def on_caecum_detected():
+    workflow.submit_event(CaecumDetected(
+        case_internal_id=case_internal_id,
+        source="vision",
+    ))
+```
+
+Capture the ID for the case being observed; do not replace it with whichever
+case happens to be current when a delayed detection arrives. It is the generated
+`internal_id`, not the manually entered case ID. Stale, repeated, out-of-phase,
+and interrupted-case detections cannot reset the timer or restart listening.
+`source` describes the producer in the signal; the existing saved JSON schema
+and event names remain unchanged.
+
+Create `ProcedureWorkflow` on the application thread and call `start()` once.
+`dispatch(event)` applies a caecum signal immediately on that thread;
+`submit_event(event)` only enqueues it and is safe from other threads.
+`process_pending()` handles queued signals and voice-worker messages on the
+application thread. Calling `dispatch()` from a different thread raises an
+error instead of mutating case state there.
+
+Other application commands are `start_case(case_id, patient_id)`, `end_case()`,
+`retry_voice()`, `retry_save()`, `new_case()`, `export_json(path)`, and
+`close(confirmed=False)`. `end_case()` freezes the timer synchronously; it does
+not wait for the next queue poll. `state(case_id, patient_id)` returns detached
+case data, status text, allowed actions, identity-field editability, and close
+confirmation/completion flags. The UI renders these values instead of repeating
+phase rules. A close request still requires polling until `ready_to_close` is
+true, allowing accepted findings and worker cleanup to finish.
+
+The report import now resolves to `generate_report.py` and loads at report
+generation time. PDF formatting and PDF error behavior are otherwise unchanged.
+In particular, the existing report generator still rejects zero-finding cases;
+this can leave a finalized case with a save error even though its JSON was written.
+This refactor does not repair the report template's existing field-mapping issues.
+
 ### Verification
 
-Run automated controller, voice control-flow, and desktop message-handler tests without downloading models or using a microphone:
+Run automated caecum, controller, voice control-flow, and headless workflow tests without downloading models or using a microphone:
 
 ```powershell
 python -m unittest discover -s tests -v
@@ -68,6 +143,10 @@ An optional real-window smoke test uses fake voice input, exercises the buttons/
 ```powershell
 python tests/desktop_smoke.py
 ```
+
+Controller/workflow tests and the desktop smoke test mock the PDF renderer.
+They verify state, JSON persistence, timing, signal delivery, and UI behavior;
+they do not certify actual PDF output or bypass report failures in the real app.
 
 On the Windows GPU machine, verify the real audio path:
 

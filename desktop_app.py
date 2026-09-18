@@ -1,25 +1,17 @@
 """Launch with python desktop_app.py on the microphone/model computer."""
 
 import json
-import queue
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
-from modules.procedure.controller import ProcedureController
-from modules.procedure.voice_worker import VoiceWorker
+from modules.caecum import CaecumDetected
+from modules.procedure.workflow import ProcedureWorkflow
 
 
 class ProcedureApp:
-    def __init__(self, root, controller=None, worker=None):
+    def __init__(self, root, workflow=None):
         self.root = root
-        self.controller = controller or ProcedureController()
-        self.worker = worker or VoiceWorker()
-        self.models_ready = False
-        self.loading = True
-        self.listening = False
-        self.voice_error = False
-        self.closing = False
-        self.worker_stopped = False
+        self.workflow = workflow if workflow is not None else ProcedureWorkflow()
         self._display_signature = object()
         self.case_id = tk.StringVar()
         self.patient_id = tk.StringVar()
@@ -30,11 +22,10 @@ class ProcedureApp:
         self.save_text = tk.StringVar()
         self.count_text = tk.StringVar(value="0 findings")
         self._build()
-        self.case_id.trace_add("write", lambda *_: self._refresh_controls())
-        self.patient_id.trace_add("write", lambda *_: self._refresh_controls())
+        self.case_id.trace_add("write", lambda *_: self._refresh_controls(self._state()))
+        self.patient_id.trace_add("write", lambda *_: self._refresh_controls(self._state()))
         self.root.protocol("WM_DELETE_WINDOW", self.close)
-        self.worker.start()
-        self.worker.prepare()
+        self.workflow.start()
         self._tick()
 
     def _build(self):
@@ -132,159 +123,74 @@ class ProcedureApp:
         widget.insert("1.0", value)
         widget.configure(state="disabled")
 
+    def _state(self):
+        return self.workflow.state(self.case_id.get(), self.patient_id.get())
+
     def start_case(self):
-        if not self.models_ready or self.closing:
-            return
-        self._action(lambda: self.controller.start(self.case_id.get(), self.patient_id.get()))
+        self.workflow.start_case(self.case_id.get(), self.patient_id.get())
+        self._refresh()
 
     def start_withdrawal(self):
-        if self._action(self.controller.start_withdrawal):
-            self._listen()
-
-    def _listen(self):
-        self.listening = True
-        self.voice_error = False
-        self.notice_text.set("")
-        self.worker.listen()
+        state = self._state()
+        self.workflow.dispatch(CaecumDetected(state.case_internal_id, source="button"))
+        self._refresh()
 
     def end_case(self):
-        # Timer and phase change on this thread before a queued trigger can be accepted.
-        if self._action(self.controller.end):
-            self.worker.stop_listening()
+        self.workflow.end_case()
+        self._refresh()
 
     def retry_voice(self):
-        if self.closing or self.loading or self.listening:
-            return
-        self.notice_text.set("")
-        self.voice_error = False
-        if not self.models_ready:
-            self.loading = True
-            self.worker.prepare()
-        elif self.controller.phase == "Withdrawal":
-            self._listen()
-        self._refresh_controls()
+        self.workflow.retry_voice()
+        self._refresh()
 
     def retry_save(self):
-        self.controller.save()
+        self.workflow.retry_save()
         self._refresh()
-
-    def _action(self, action):
-        try:
-            action()
-        except ValueError as exc:
-            self.notice_text.set(str(exc))
-            return False
-        self._refresh()
-        return True
 
     def export(self):
-        if not self.controller.finalized or self.controller.dirty:
+        state = self._state()
+        if "export" not in state.actions:
             return
         path = filedialog.asksaveasfilename(
             parent=self.root, title="Export case JSON", defaultextension=".json",
-            initialfile=self.controller.path.name, filetypes=[("JSON", "*.json")])
+            initialfile=state.report_filename, filetypes=[("JSON", "*.json")])
         if path:
-            try:
-                self.controller.export(path)
-                self.notice_text.set(f"Exported to {path}")
-            except Exception as exc:
-                self.notice_text.set(f"Export failed: {exc}")
-
-    def new_case(self):
-        if self.listening:
-            return
-        if self._action(self.controller.new_case):
-            self.case_id.set("")
-            self.patient_id.set("")
-            self.voice_error = False
-            self.voice_text.set("Ready")
-            self.notice_text.set("")
-            self.case_entry.focus_set()
+            self.workflow.export_json(path)
             self._refresh()
 
-    def _handle(self, message):
-        kind, data = message.kind, message.data
-        if kind == "trigger":
-            finding_id = None if self.closing else self.controller.accept_trigger()
-            message.reply.put(finding_id)
-        elif kind == "result":
-            saved = False
-            try:
-                saved = self.controller.add_finding(**data)
-            except ValueError as exc:
-                self.notice_text.set(str(exc))
-            finally:
-                message.reply.put(saved)
-        elif kind == "done":
-            self._action(lambda: self.controller.finish_finding(data["finding_id"]))
-        elif kind == "status":
-            self.voice_text.set(data["text"])
-        elif kind == "ready":
-            self.loading = False
-            self.models_ready = True
-            self.voice_text.set("Ready")
-            self.notice_text.set("Models ready. Enter case and patient IDs to start.")
-        elif kind == "init_error":
-            self.loading = False
-            self.voice_error = True
-            self.voice_text.set("Error")
-            self.notice_text.set(f"Initialization failed: {data['message']} Check config.py and dependencies, then Retry.")
-        elif kind == "error":
-            self.voice_error = True
-            self.voice_text.set("Error")
-            self.notice_text.set(f"{data['stage']}: {data['message']} Use Retry Listening to try again.")
-            self.controller.record_error(**data)
-        elif kind == "notice":
-            self.notice_text.set(data["text"])
-        elif kind == "idle":
-            self.listening = False
-            if not self.voice_error:
-                self.voice_text.set("Stopped" if self.controller.phase == "Completed" else "Ready")
-        elif kind == "stopped":
-            self.worker_stopped = True
-            self.listening = False
+    def new_case(self):
+        if self.workflow.new_case():
+            self.case_id.set("")
+            self.patient_id.set("")
+            self.case_entry.focus_set()
+        self._refresh()
 
-    def _refresh_controls(self):
-        phase = self.controller.phase
-        active = not self.closing and not (self.controller.case and self.controller.case["incomplete"])
-        ready = active and phase == "Ready"
+    def _refresh_controls(self, state):
         for entry in (self.case_entry, self.patient_entry):
-            entry.configure(state="normal" if ready else "disabled")
-        enabled = {
-            self.start_button: ready and self.models_ready and bool(self.case_id.get().strip() and self.patient_id.get().strip()),
-            self.caecum_button: active and phase == "Insertion",
-            self.end_button: active and phase == "Withdrawal",
-            self.retry_voice_button: active and not self.loading and not self.listening and
-                                     (not self.models_ready or (phase == "Withdrawal" and self.voice_error)),
-            self.retry_save_button: self.controller.dirty,
-            self.export_button: active and self.controller.finalized and not self.controller.dirty,
-            self.new_button: active and self.controller.finalized and not self.controller.dirty and not self.listening,
+            entry.configure(state="normal" if state.identity_editable else "disabled")
+        buttons = {
+            "start": self.start_button, "caecum": self.caecum_button,
+            "end": self.end_button, "retry_voice": self.retry_voice_button,
+            "retry_save": self.retry_save_button, "export": self.export_button,
+            "new_case": self.new_button,
         }
-        for widget, state in enabled.items():
-            widget.configure(state="normal" if state else "disabled")
-        self.retry_voice_button.configure(text="Retry Loading" if not self.models_ready else "Retry Listening")
+        for action, widget in buttons.items():
+            widget.configure(state="normal" if action in state.actions else "disabled")
+        self.retry_voice_button.configure(text=state.retry_voice_label)
 
-    def _refresh(self):
-        controller = self.controller
-        phase = controller.phase
-        if phase == "Completed" and controller.pending:
-            phase += " — finishing current finding"
-        if self.closing:
-            phase = "Closing — waiting for voice worker"
-        self.phase_text.set(phase)
-        seconds = int(controller.duration)
+    def _refresh(self, state=None):
+        state = state if state is not None else self._state()
+        self.phase_text.set(state.phase_label)
+        seconds = int(state.duration_seconds)
         self.timer_text.set(f"{seconds // 60:02d}:{seconds % 60:02d}")
-        if controller.save_error:
-            self.save_text.set(f"Not saved: {controller.save_error}. Results retained in memory; use Retry Save.")
-        elif controller.case:
-            self.save_text.set(f"Saved: {controller.path}")
-        else:
-            self.save_text.set("")
-        self._refresh_controls()
-        case = controller.case
-        # Don't overwrite selection or scroll position on every timer tick.
+        self.voice_text.set(state.voice_status)
+        self.notice_text.set(state.notice)
+        self.save_text.set(state.save_status)
+        self._refresh_controls(state)
+        case = state.case
+        # Presentation cache: preserve selection and scroll position between ticks.
         signature = (case["internal_id"], len(case["events"]), len(case["findings"]),
-                     case["finalized"], bool(controller.pending)) if case else None
+                     case["finalized"], bool(case["pending_finding"])) if case else None
         if signature == self._display_signature:
             return
         self._display_signature = signature
@@ -303,45 +209,38 @@ class ProcedureApp:
             self._set_text(self.finding_detail, "Select a finding to see its transcription and all seven fields.")
         events = "\n".join(json.dumps(event, ensure_ascii=False) for event in case["events"]) if case else ""
         self._set_text(self.event_text, events)
-        summary = json.dumps(controller.snapshot(), ensure_ascii=False, indent=2) if controller.finalized else "Final summary will appear after completion and any pending finding finishes."
+        summary = json.dumps(case, ensure_ascii=False, indent=2) if case and case["finalized"] else "Final summary will appear after completion and any pending finding finishes."
         self._set_text(self.summary_text, summary)
 
     def _select_finding(self, _event=None):
         selected = self.findings.selection()
-        if not selected or not self.controller.case:
+        case = self._state().case
+        if not selected or not case:
             return
-        finding = next(item for item in self.controller.case["findings"] if item["finding_id"] == selected[0])
-        self._set_text(self.finding_detail, json.dumps(finding, ensure_ascii=False, indent=2))
+        finding = next((item for item in case["findings"] if item["finding_id"] == selected[0]), None)
+        if finding is not None:
+            self._set_text(self.finding_detail, json.dumps(finding, ensure_ascii=False, indent=2))
 
     def close(self):
-        if self.closing:
-            return
-        if self.controller.case and not self.controller.finalized:
-            if not messagebox.askyesno("Close active case?", "Save this case as incomplete and close? Any accepted finding will finish first.", parent=self.root):
+        state = self._state()
+        confirmed = False
+        if state.needs_close_confirmation:
+            confirmed = messagebox.askyesno(
+                "Close active case?",
+                "Save this case as incomplete and close? Any accepted finding will finish first.",
+                parent=self.root)
+            if not confirmed:
                 return
-            self.controller.interrupt()
-            self.worker.stop_listening()
-        if self.controller.dirty and not self.controller.save():
-            self.notice_text.set("Cannot close while results are unsaved. Use Retry Save, then close again.")
-            self._refresh()
-            return
-        self.closing = True
-        self.worker.shutdown()
+        self.workflow.close(confirmed=confirmed)
         self._refresh()
 
     def _tick(self):
-        try:
-            while True:
-                self._handle(self.worker.messages.get_nowait())
-        except queue.Empty:
-            pass
-        self._refresh()
-        if self.closing and self.worker_stopped:
-            if self.controller.dirty:
-                self.notice_text.set("Voice worker stopped. Retry Save to finish closing without losing results.")
-            else:
-                self.root.destroy()
-                return
+        self.workflow.process_pending()
+        state = self._state()
+        self._refresh(state)
+        if state.ready_to_close:
+            self.root.destroy()
+            return
         self.root.after(100, self._tick)
 
 

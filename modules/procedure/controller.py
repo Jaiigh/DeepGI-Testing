@@ -9,7 +9,11 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 
-from generate_endoscopy_pdf import generate_pdf_from_json
+def generate_pdf_from_json(input_json, output_pdf):
+    # Keep model-free controller/workflow tests independent of PDF dependencies.
+    # Rendering is still performed by the existing report generator at final save.
+    from generate_report import generate_pdf_from_json as generate
+    return generate(input_json, output_pdf)
 
 
 def atomic_write_json(path, data):

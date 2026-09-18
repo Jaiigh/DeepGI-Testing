@@ -1,6 +1,7 @@
 import json
 import tempfile
 import unittest
+from unittest.mock import patch
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -13,6 +14,9 @@ RESULT = {"lesion_type": "polyp", "location": "sigmoid colon", "size_mm": 6,
 
 class ProcedureTests(unittest.TestCase):
     def setUp(self):
+        renderer = patch("modules.procedure.controller.generate_pdf_from_json")
+        renderer.start()
+        self.addCleanup(renderer.stop)
         self.directory = tempfile.TemporaryDirectory()
         self.addCleanup(self.directory.cleanup)
         self.seconds = 100.0
