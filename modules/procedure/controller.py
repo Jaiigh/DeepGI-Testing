@@ -10,8 +10,6 @@ from datetime import datetime
 from pathlib import Path
 
 def generate_pdf_from_json(input_json, output_pdf):
-    # Keep model-free controller/workflow tests independent of PDF dependencies.
-    # Rendering is still performed by the existing report generator at final save.
     from generate_report import generate_pdf_from_json as generate
     return generate(input_json, output_pdf)
 
@@ -206,6 +204,8 @@ class ProcedureController:
         if not self.finalized or self.dirty:
             raise ValueError("Finish the case and save its results before exporting.")
         self._writer(path, self.snapshot())
+        pdf_path = Path(path).with_suffix(".pdf")
+        generate_pdf_from_json(path, pdf_path)
 
     def new_case(self):
         if not self.finalized or self.dirty:
