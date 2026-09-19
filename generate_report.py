@@ -93,6 +93,10 @@ def build_location_text(location, records):
     fragments = []
     for result in location_records:
         size = result.get("size_mm")
+        try:
+            size = float(size) / 10
+        except (TypeError, ValueError):
+            size = None
         lesion_type = str(result.get("lesion_type", "")).strip().capitalize()
         size_text = str(size) if size is not None else ""
 
